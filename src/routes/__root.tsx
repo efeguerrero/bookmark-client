@@ -7,7 +7,6 @@ import "@/styles/index.css";
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div>Hello! This is the root.</div>
       <Outlet />
       <TanStackRouterDevtools />
     </>
