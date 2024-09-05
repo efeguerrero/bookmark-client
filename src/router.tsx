@@ -1,4 +1,4 @@
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { RouterProvider, createRouter, Link } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
 
 // Import the generated route tree
@@ -14,6 +14,16 @@ declare module "@tanstack/react-router" {
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  defaultNotFoundComponent: () => {
+    return (
+      <div>
+        <p>Not found!</p>
+        <Link className="font-bold" to="/">
+          Go home
+        </Link>
+      </div>
+    );
+  },
   context: {
     // User will initially be undefined
     // We'll be passing down the auth state from within a React component
@@ -28,5 +38,5 @@ export function Router() {
   if (!isLoaded) {
     return null;
   }
-  return <RouterProvider router={router} context={{user}} />;
+  return <RouterProvider router={router} context={{ user }} />;
 }
