@@ -1,13 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require("tailwindcss/defaultTheme");
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        geist: ["Geists", ...defaultTheme.fontFamily.sans],
+        geist: ["Geist", ...defaultTheme.fontFamily.sans],
       },
     },
   },
