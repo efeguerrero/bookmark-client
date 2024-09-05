@@ -19,12 +19,20 @@ function App() {
   const { user } = Route.useRouteContext();
   const { signOut } = useAuth();
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error during sign out:", error); //
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl">
         Hello {user?.primaryEmailAddress?.emailAddress}
       </h1>
-      <button onClick={() => signOut()}>Sign Out</button>
+      <button onClick={handleSignOut}>Sign Out</button>
     </div>
   );
 }
