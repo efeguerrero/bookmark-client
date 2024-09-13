@@ -1,5 +1,5 @@
 import React from "react";
-import { User, HelpCircle, LogOut, Check, ChevronsUpDown } from "lucide-react";
+import { HelpCircle, LogOut, Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
@@ -92,6 +92,7 @@ export default function Header() {
                 <CommandGroup>
                   {frameworks.map((framework) => (
                     <CommandItem
+                      className="hover:cursor-pointer"
                       key={framework.value}
                       value={framework.value}
                       onSelect={(currentValue) => {
@@ -128,11 +129,11 @@ export default function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
               <HelpCircle className="mr-2 h-4 w-4" />
               <span>Help</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer">
               <LogOut className="mr-2 h-4 w-4" />
               <span onClick={handleSignOut}>Log out</span>
             </DropdownMenuItem>

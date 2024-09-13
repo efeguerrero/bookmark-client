@@ -13,6 +13,11 @@ export const Route = createFileRoute("/app/")({
       });
     }
   },
+  loader: async () => {
+    const response = await fetch("http://localhost:8080/bookmark-group");
+    const data = await response.json();
+    console.log(data);
+  },
   component: App,
 });
 
