@@ -30,7 +30,7 @@ import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 export default function Header() {
   const [open, setOpen] = React.useState(false);
   const [slug, setSlug] = React.useState("");
-  const bookmarkGroups = useQuery(bookmarkGroupsQueryOptions);
+  const { data: bookmarkGroups } = useQuery(bookmarkGroupsQueryOptions);
 
   const route = getRouteApi("/app/");
 
@@ -58,7 +58,7 @@ export default function Header() {
               className="w-[200px] justify-between"
             >
               {slug
-                ? bookmarkGroups.data.find((bookmark) => bookmark.slug === slug)
+                ? bookmarkGroups?.find((bookmark) => bookmark.slug === slug)
                     ?.name
                 : "Select a Group..."}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -68,9 +68,9 @@ export default function Header() {
             <Command>
               <CommandInput placeholder="Search framework..." />
               <CommandList>
-                <CommandEmpty>No framework found.</CommandEmpty>
+                <CommandEmpty>No Bookmark Groups Found.</CommandEmpty>
                 <CommandGroup>
-                  {bookmarkGroups.data.map((bookmark) => (
+                  {bookmarkGroups?.map((bookmark) => (
                     <CommandItem
                       className="hover:cursor-pointer"
                       key={bookmark.id}

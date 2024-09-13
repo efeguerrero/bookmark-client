@@ -16,6 +16,16 @@ export const Route = createFileRoute("/app/")({
   loader: ({ context: { queryClient } }) =>
     queryClient.ensureQueryData(bookmarkGroupsQueryOptions),
   component: App,
+  pendingComponent: () => {
+    return <div>loading data...</div>;
+  },
+  errorComponent: () => {
+    return (
+      <div>
+        Something went wrong! <br /> Please refresh the page.
+      </div>
+    );
+  },
 });
 
 function App() {
