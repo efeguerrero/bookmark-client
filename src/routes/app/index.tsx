@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useAuth } from "@clerk/clerk-react";
+
+import Header from "@/components/app/header";
 
 export const Route = createFileRoute("/app/")({
   beforeLoad: async ({ context, location }) => {
@@ -16,23 +17,9 @@ export const Route = createFileRoute("/app/")({
 });
 
 function App() {
-  const { user } = Route.useRouteContext();
-  const { signOut } = useAuth();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error("Error during sign out:", error); //
-    }
-  };
-
   return (
-    <div>
-      <h1 className="text-2xl">
-        Hello {user?.primaryEmailAddress?.emailAddress}
-      </h1>
-      <button onClick={handleSignOut}>Sign Out</button>
+    <div className="min-h-screen">
+      <Header />
     </div>
   );
 }
