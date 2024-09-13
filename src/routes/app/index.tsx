@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-
 import Header from "@/components/app/header";
+import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 
 export const Route = createFileRoute("/app/")({
   beforeLoad: async ({ context, location }) => {
@@ -13,11 +13,8 @@ export const Route = createFileRoute("/app/")({
       });
     }
   },
-  loader: async () => {
-    const response = await fetch("http://localhost:8080/bookmark-group");
-    const data = await response.json();
-    console.log(data);
-  },
+  loader: ({ context: { queryClient } }) =>
+    queryClient.ensureQueryData(bookmarkGroupsQueryOptions),
   component: App,
 });
 

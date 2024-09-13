@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
 import { getRouteApi } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 
 import {
   DropdownMenu,
@@ -24,33 +25,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [slug, setSlug] = React.useState("");
+  const bookmarkGroups = useQuery(bookmarkGroupsQueryOptions);
 
   const route = getRouteApi("/app/");
 
@@ -77,10 +57,10 @@ export default function Header() {
               aria-expanded={open}
               className="w-[200px] justify-between"
             >
-              {value
-                ? frameworks.find((framework) => framework.value === value)
-                    ?.label
-                : "Select framework..."}
+              {slug
+                ? bookmarkGroups.data.find((bookmark) => bookmark.slug === slug)
+                    ?.name
+                : "Select a Group..."}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -90,25 +70,23 @@ export default function Header() {
               <CommandList>
                 <CommandEmpty>No framework found.</CommandEmpty>
                 <CommandGroup>
-                  {frameworks.map((framework) => (
+                  {bookmarkGroups.data.map((bookmark) => (
                     <CommandItem
                       className="hover:cursor-pointer"
-                      key={framework.value}
-                      value={framework.value}
+                      key={bookmark.id}
+                      value={bookmark.slug}
                       onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
+                        setSlug(currentValue === slug ? "" : currentValue);
                         setOpen(false);
                       }}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          value === framework.value
-                            ? "opacity-100"
-                            : "opacity-0",
+                          slug === bookmark.slug ? "opacity-100" : "opacity-0",
                         )}
                       />
-                      {framework.label}
+                      {bookmark.name}
                     </CommandItem>
                   ))}
                 </CommandGroup>
