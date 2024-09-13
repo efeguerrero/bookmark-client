@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { Router } from "./router";
+import { ReactQueryProvider } from "@/queryClient";
 
 // Import Clerk publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -17,7 +18,9 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-        <Router />
+        <ReactQueryProvider>
+          <Router />
+        </ReactQueryProvider>
       </ClerkProvider>
     </StrictMode>,
   );
