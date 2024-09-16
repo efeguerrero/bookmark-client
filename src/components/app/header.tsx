@@ -1,41 +1,33 @@
-import React from "react";
-import { HelpCircle, LogOut, Check, ChevronsUpDown } from "lucide-react";
+import {
+  HelpCircle,
+  LogOut,
+  Check,
+  ChevronsUpDown,
+  CirclePlus,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
-import { getRouteApi, useNavigate } from "@tanstack/react-router";
+import { getRouteApi, Link, useParams } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 
 export default function Header() {
-  const [open, setOpen] = React.useState(false);
-  const [slug, setSlug] = React.useState("");
   const { data: bookmarkGroups } = useQuery(bookmarkGroupsQueryOptions);
 
   const route = getRouteApi("/app/_layout");
-  const navigate = useNavigate();
-
   const { user } = route.useRouteContext();
+  const { groupSlug } = useParams({ from: "/app/_layout/$groupSlug" });
+
   const { signOut } = useAuth();
 
   const handleSignOut = async () => {
@@ -50,55 +42,45 @@ export default function Header() {
     <header className="flex items-center justify-between border-b p-4">
       <div className="flex items-center space-x-4">
         <h1 className="text-2xl font-semibold">Bookmarker</h1>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-[200px] justify-between"
-            >
-              {slug
-                ? bookmarkGroups?.find((bookmark) => bookmark.slug === slug)
-                    ?.name
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="outline" className="w-[200px] justify-between">
+              {groupSlug
+                ? bookmarkGroups?.find(
+                    (bookmark) => bookmark.slug === groupSlug,
+                  )?.name
                 : "Select a Group..."}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
-            <Command>
-              <CommandInput placeholder="Search framework..." />
-              <CommandList>
-                <CommandEmpty>No Bookmark Groups Found.</CommandEmpty>
-                <CommandGroup>
-                  {bookmarkGroups?.map((bookmark) => (
-                    <CommandItem
-                      key={bookmark.id}
-                      className="hover:cursor-pointer"
-                      value={bookmark.slug}
-                      onSelect={(currentValue) => {
-                        setSlug(currentValue === slug ? "" : currentValue);
-                        navigate({
-                          to: "/app/$groupSlug",
-                          params: { groupSlug: bookmark.slug },
-                        });
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          slug === bookmark.slug ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                      {bookmark.name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {bookmarkGroups?.map((bookmark) => (
+              <DropdownMenuItem
+                key={bookmark.id}
+                asChild
+                className="hover:cursor-pointer"
+              >
+                <Link
+                  to="/app/$groupSlug"
+                  params={{ groupSlug: bookmark.slug }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      groupSlug === bookmark.slug ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  {bookmark.name}
+                </Link>
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="flex items-center hover:cursor-pointer">
+              <CirclePlus className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+              <span>New Group</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="flex items-center justify-between gap-4">
         <h3 className="font-medium">{user?.fullName}</h3>
