@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
-import Header from "@/components/app/header";
+import Header from "@/components/app/header/";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 
 export const Route = createFileRoute("/app/_layout")({
