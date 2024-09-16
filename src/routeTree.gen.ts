@@ -14,16 +14,23 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as AppIndexImport } from './routes/app/index'
+import { Route as AppLayoutImport } from './routes/app/_layout'
 import { Route as authLayoutImport } from './routes/(auth)/_layout'
+import { Route as AppLayoutGroupSlugImport } from './routes/app/_layout.$groupSlug'
 import { Route as authLayoutRegisterImport } from './routes/(auth)/_layout.register'
 import { Route as authLayoutLoginImport } from './routes/(auth)/_layout.login'
 
 // Create Virtual Routes
 
+const AppImport = createFileRoute('/app')()
 const authImport = createFileRoute('/(auth)')()
 
 // Create/Update Routes
+
+const AppRoute = AppImport.update({
+  path: '/app',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const authRoute = authImport.update({
   id: '/(auth)',
@@ -35,14 +42,19 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AppIndexRoute = AppIndexImport.update({
-  path: '/app/',
-  getParentRoute: () => rootRoute,
+const AppLayoutRoute = AppLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => AppRoute,
 } as any)
 
 const authLayoutRoute = authLayoutImport.update({
   id: '/_layout',
   getParentRoute: () => authRoute,
+} as any)
+
+const AppLayoutGroupSlugRoute = AppLayoutGroupSlugImport.update({
+  path: '/$groupSlug',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const authLayoutRegisterRoute = authLayoutRegisterImport.update({
@@ -80,12 +92,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutImport
       parentRoute: typeof authRoute
     }
-    '/app/': {
-      id: '/app/'
+    '/app': {
+      id: '/app'
       path: '/app'
       fullPath: '/app'
-      preLoaderRoute: typeof AppIndexImport
+      preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
+    }
+    '/app/_layout': {
+      id: '/app/_layout'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppLayoutImport
+      parentRoute: typeof AppRoute
     }
     '/(auth)/_layout/login': {
       id: '/_layout/login'
@@ -101,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutRegisterImport
       parentRoute: typeof authLayoutImport
     }
+    '/app/_layout/$groupSlug': {
+      id: '/app/_layout/$groupSlug'
+      path: '/$groupSlug'
+      fullPath: '/app/$groupSlug'
+      preLoaderRoute: typeof AppLayoutGroupSlugImport
+      parentRoute: typeof AppLayoutImport
+    }
   }
 }
 
@@ -114,7 +140,9 @@ export const routeTree = rootRoute.addChildren({
       authLayoutRegisterRoute,
     }),
   }),
-  AppIndexRoute,
+  AppRoute: AppRoute.addChildren({
+    AppLayoutRoute: AppLayoutRoute.addChildren({ AppLayoutGroupSlugRoute }),
+  }),
 })
 
 /* prettier-ignore-end */
@@ -127,7 +155,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/",
-        "/app/"
+        "/app"
       ]
     },
     "/": {
@@ -144,8 +172,18 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/register"
       ]
     },
-    "/app/": {
-      "filePath": "app/index.tsx"
+    "/app": {
+      "filePath": "app",
+      "children": [
+        "/app/_layout"
+      ]
+    },
+    "/app/_layout": {
+      "filePath": "app/_layout.tsx",
+      "parent": "/app",
+      "children": [
+        "/app/_layout/$groupSlug"
+      ]
     },
     "/_layout/login": {
       "filePath": "(auth)/_layout.login.tsx",
@@ -154,6 +192,10 @@ export const routeTree = rootRoute.addChildren({
     "/_layout/register": {
       "filePath": "(auth)/_layout.register.tsx",
       "parent": "/_layout"
+    },
+    "/app/_layout/$groupSlug": {
+      "filePath": "app/_layout.$groupSlug.tsx",
+      "parent": "/app/_layout"
     }
   }
 }

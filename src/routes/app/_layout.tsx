@@ -1,8 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
 import Header from "@/components/app/header";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 
-export const Route = createFileRoute("/app/")({
+export const Route = createFileRoute("/app/_layout")({
   beforeLoad: async ({ context, location }) => {
     if (!context.user) {
       throw redirect({
@@ -32,6 +32,7 @@ function App() {
   return (
     <div className="min-h-screen">
       <Header />
+      <Outlet />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { HelpCircle, LogOut, Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@clerk/clerk-react";
-import { getRouteApi } from "@tanstack/react-router";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import {
@@ -32,7 +32,8 @@ export default function Header() {
   const [slug, setSlug] = React.useState("");
   const { data: bookmarkGroups } = useQuery(bookmarkGroupsQueryOptions);
 
-  const route = getRouteApi("/app/");
+  const route = getRouteApi("/app/_layout");
+  const navigate = useNavigate();
 
   const { user } = route.useRouteContext();
   const { signOut } = useAuth();
@@ -72,11 +73,15 @@ export default function Header() {
                 <CommandGroup>
                   {bookmarkGroups?.map((bookmark) => (
                     <CommandItem
-                      className="hover:cursor-pointer"
                       key={bookmark.id}
+                      className="hover:cursor-pointer"
                       value={bookmark.slug}
                       onSelect={(currentValue) => {
                         setSlug(currentValue === slug ? "" : currentValue);
+                        navigate({
+                          to: "/app/$groupSlug",
+                          params: { groupSlug: bookmark.slug },
+                        });
                         setOpen(false);
                       }}
                     >
