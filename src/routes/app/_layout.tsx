@@ -1,6 +1,7 @@
 import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
 import Header from "@/components/app/header/";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import * as Icons from "@/components/ui/icons";
 
 export const Route = createFileRoute("/app/_layout")({
   beforeLoad: async ({ context, location }) => {
@@ -18,7 +19,11 @@ export const Route = createFileRoute("/app/_layout")({
 
   component: App,
   pendingComponent: () => {
-    return <div>loading data...</div>;
+    return (
+      <div className="grid h-dvh w-full place-items-center">
+        <Icons.spinner className="size-24 animate-spin text-primary" />
+      </div>
+    );
   },
   errorComponent: () => {
     return (

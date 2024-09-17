@@ -32,7 +32,7 @@ export default function GroupsMenu() {
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="min-w-[200px]">
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link to="/app">
               <Check
@@ -45,30 +45,39 @@ export default function GroupsMenu() {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          {bookmarkGroups.map((bookmark) => (
-            <DropdownMenuItem
-              key={bookmark.id}
-              asChild
-              className="hover:cursor-pointer"
-            >
-              <Link to="/app/$groupSlug" params={{ groupSlug: bookmark.slug }}>
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    groupSlug === bookmark.slug ? "opacity-100" : "opacity-0",
-                  )}
-                />
-                {bookmark.name}
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          {bookmarkGroups.length ? (
+            bookmarkGroups.map((bookmark) => (
+              <DropdownMenuItem
+                key={bookmark.id}
+                asChild
+                className="hover:cursor-pointer"
+              >
+                <Link
+                  to="/app/$groupSlug"
+                  params={{ groupSlug: bookmark.slug }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      groupSlug === bookmark.slug ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  {bookmark.name}
+                </Link>
+              </DropdownMenuItem>
+            ))
+          ) : (
+            <p className="my-6 text-center text-xs text-muted-foreground">
+              No custom groups created
+            </p>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowNewGroupDialog(true)}
             className="hover:cursor-pointer"
           >
-            <CirclePlus className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-            <span>New Group</span>
+            <CirclePlus className="mr-2 h-4 w-4 shrink-0 text-primary opacity-100" />
+            <span className="text-primary">New Group</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
