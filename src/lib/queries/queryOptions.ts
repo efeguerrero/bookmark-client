@@ -4,7 +4,8 @@ import { BookmarkGroup } from "@/lib/types.ts";
 
 export const bookmarkGroupsQueryOptions = queryOptions({
   queryKey: ["bookmarkGroups"],
-  retry: false,
+  retry: 2,
+  retryDelay: 1000,
   queryFn: async (): Promise<BookmarkGroup[]> => {
     const response = await fetch("http://localhost:8080/bookmark-group", {
       headers: {

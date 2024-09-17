@@ -13,8 +13,9 @@ export const Route = createFileRoute("/app/_layout")({
       });
     }
   },
-  loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(bookmarkGroupsQueryOptions),
+  loader: async ({ context: { queryClient } }) =>
+    await queryClient.ensureQueryData(bookmarkGroupsQueryOptions),
+
   component: App,
   pendingComponent: () => {
     return <div>loading data...</div>;

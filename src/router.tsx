@@ -38,8 +38,7 @@ const router = createRouter({
 });
 
 export function Router() {
-  const { isSignedIn, isLoaded, user } = useUser();
-  console.log(isSignedIn);
+  const { isLoaded, user } = useUser();
 
   if (!isLoaded) {
     return null;

@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppLayoutImport } from './routes/app/_layout'
 import { Route as authLayoutImport } from './routes/(auth)/_layout'
+import { Route as AppLayoutIndexImport } from './routes/app/_layout.index'
 import { Route as AppLayoutGroupSlugImport } from './routes/app/_layout.$groupSlug'
 import { Route as authLayoutRegisterImport } from './routes/(auth)/_layout.register'
 import { Route as authLayoutLoginImport } from './routes/(auth)/_layout.login'
@@ -50,6 +51,11 @@ const AppLayoutRoute = AppLayoutImport.update({
 const authLayoutRoute = authLayoutImport.update({
   id: '/_layout',
   getParentRoute: () => authRoute,
+} as any)
+
+const AppLayoutIndexRoute = AppLayoutIndexImport.update({
+  path: '/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppLayoutGroupSlugRoute = AppLayoutGroupSlugImport.update({
@@ -127,6 +133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutGroupSlugImport
       parentRoute: typeof AppLayoutImport
     }
+    '/app/_layout/': {
+      id: '/app/_layout/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppLayoutIndexImport
+      parentRoute: typeof AppLayoutImport
+    }
   }
 }
 
@@ -141,7 +154,10 @@ export const routeTree = rootRoute.addChildren({
     }),
   }),
   AppRoute: AppRoute.addChildren({
-    AppLayoutRoute: AppLayoutRoute.addChildren({ AppLayoutGroupSlugRoute }),
+    AppLayoutRoute: AppLayoutRoute.addChildren({
+      AppLayoutGroupSlugRoute,
+      AppLayoutIndexRoute,
+    }),
   }),
 })
 
@@ -182,7 +198,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "app/_layout.tsx",
       "parent": "/app",
       "children": [
-        "/app/_layout/$groupSlug"
+        "/app/_layout/$groupSlug",
+        "/app/_layout/"
       ]
     },
     "/_layout/login": {
@@ -195,6 +212,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/app/_layout/$groupSlug": {
       "filePath": "app/_layout.$groupSlug.tsx",
+      "parent": "/app/_layout"
+    },
+    "/app/_layout/": {
+      "filePath": "app/_layout.index.tsx",
       "parent": "/app/_layout"
     }
   }
