@@ -11,3 +11,5 @@ export const bookmarkGroup = z.object({
     ),
   name: z.string().min(1, "Name cannot be empty"),
 });
+
+export const newBookmarkGroup = bookmarkGroup.omit({ id: true });
