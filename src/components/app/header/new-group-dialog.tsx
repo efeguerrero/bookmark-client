@@ -53,7 +53,8 @@ const NewGroupDialog = ({
     createBookmarkGroup.mutate(values, {
       onError: () => {
         toast({
-          description: "Something Went Wrong!",
+          description:
+            "There was an error creating this group. Please try again later.",
         });
       },
       onSuccess: (data) => {
