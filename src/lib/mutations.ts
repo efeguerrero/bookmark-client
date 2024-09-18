@@ -57,6 +57,12 @@ export const useDeleteBookmakrGroup = () => {
   type Input = z.infer<typeof bookmarkGroup.shape.id>;
   return useMutation({
     mutationFn: async (id: Input): Promise<void> => {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 2000);
+      });
+
       const res = await fetch(`http://localhost:8080/bookmark-group/${id}`, {
         method: "DELETE",
         headers: {

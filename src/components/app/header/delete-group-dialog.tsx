@@ -1,7 +1,6 @@
 import React from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -15,6 +14,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 import { useParams, useNavigate } from "@tanstack/react-router";
 import { useToast } from "@/hooks/use-toast";
+import * as Icons from "@/components/ui/icons";
 
 interface Props {
   showDeleteGroupDialog: boolean;
@@ -83,13 +83,21 @@ const DeleteGroupDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button variant="outline">Cancel</Button>
-          </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button onClick={() => handleDelete()} variant="destructive">
-              Delete
+            <Button disabled={deleteBookmarkGroup.isPending} variant="outline">
+              Cancel
             </Button>
-          </AlertDialogAction>
+          </AlertDialogCancel>
+
+          <Button
+            disabled={deleteBookmarkGroup.isPending}
+            onClick={() => handleDelete()}
+            variant="destructive"
+          >
+            {deleteBookmarkGroup.isPending && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            {deleteBookmarkGroup.isPending ? "Deleting" : "Delete"}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

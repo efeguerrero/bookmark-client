@@ -105,6 +105,7 @@ const NewGroupDialog = ({
             <div className="flex justify-end gap-x-6">
               <Button
                 type="reset"
+                disabled={form.formState.isSubmitting}
                 variant="outline"
                 onClick={() => setShowNewGroupDialog(false)}
               >
