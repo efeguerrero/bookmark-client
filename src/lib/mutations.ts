@@ -53,7 +53,7 @@ export const useNewBookmarkGroup = () => {
   });
 };
 
-export const useDeleteBookmakrGroup = () => {
+export const useDeleteBookmarkGroup = () => {
   type Input = z.infer<typeof bookmarkGroup.shape.id>;
   return useMutation({
     mutationFn: async (id: Input): Promise<void> => {
@@ -80,6 +80,49 @@ export const useDeleteBookmakrGroup = () => {
             const newData = oldData.filter((item) => item.id !== id);
             return newData;
           }
+          return;
+        },
+      );
+    },
+  });
+};
+
+export const useUpdateBookmarkGroup = () => {
+  return useMutation({
+    mutationFn: async (data: BookmarkGroup): Promise<BookmarkGroup> => {
+      const res = await fetch(
+        `http://localhost:8080/bookmark-group/${data.id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ name: data.name, slug: data.slug }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${await getSessionToken()}`,
+          },
+        },
+      );
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw res.status;
+      }
+
+      return response;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        bookmarkGroupsQueryOptions.queryKey,
+        (oldData) => {
+          if (oldData) {
+            const newData = oldData.map((item) => {
+              if (item.id === data.id) {
+                return data;
+              }
+              return item;
+            });
+            return newData;
+          }
+
           return;
         },
       );

@@ -20,11 +20,13 @@ import {
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 import NewGroupDialog from "@/components/app/header/new-group-dialog";
 import DeleteGroupDialog from "@/components/app/header/delete-group-dialog";
+import EditGroupDialog from "@/components/app/header/update-group-dialog";
 
 export default function GroupsMenu() {
   const [showNewGroupDialog, setShowNewGroupDialog] = React.useState(false);
   const [showDeleteGroupDialog, setShowDeleteGroupDialog] =
     React.useState(false);
+  const [showEditGroupDialog, setShowEditGroupDialog] = React.useState(false);
   const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupsQueryOptions);
   const params = useParams({ strict: false });
   const groupSlug = params.groupSlug || null;
@@ -90,6 +92,7 @@ export default function GroupsMenu() {
           </DropdownMenuItem>
           <DropdownMenuItem
             className="hover:cursor-pointer"
+            onSelect={() => setShowEditGroupDialog(true)}
             disabled={!groupSlug}
           >
             <FilePenLine className="mr-2 h-4 w-4 shrink-0 opacity-100" />
@@ -112,6 +115,10 @@ export default function GroupsMenu() {
       <DeleteGroupDialog
         showDeleteGroupDialog={showDeleteGroupDialog}
         setShowDeleteGroupDialog={setShowDeleteGroupDialog}
+      />
+      <EditGroupDialog
+        showEditGroupDialog={showEditGroupDialog}
+        setShowEditGroupDialog={setShowEditGroupDialog}
       />
     </React.Fragment>
   );

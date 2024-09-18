@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useDeleteBookmakrGroup } from "@/lib/mutations";
+import { useDeleteBookmarkGroup } from "@/lib/mutations";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 import { useParams, useNavigate } from "@tanstack/react-router";
@@ -33,7 +33,7 @@ const DeleteGroupDialog = ({
 
   const { toast } = useToast();
   const navigate = useNavigate();
-  const deleteBookmarkGroup = useDeleteBookmakrGroup();
+  const deleteBookmarkGroup = useDeleteBookmarkGroup();
 
   const handleDelete = () => {
     if (activeBookmarkGroup) {
