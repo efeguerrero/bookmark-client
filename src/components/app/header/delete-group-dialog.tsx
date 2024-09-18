@@ -25,19 +25,19 @@ const DeleteGroupDialog = ({
   showDeleteGroupDialog,
   setShowDeleteGroupDialog,
 }: Props) => {
-  const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupsQueryOptions);
   const { groupSlug } = useParams({ strict: false });
-  const activeBookmarkGroupID = bookmarkGroups.find(
-    (item) => item.slug === groupSlug,
-  )?.id;
+  const { data: activeBookmarkGroup } = useSuspenseQuery({
+    ...bookmarkGroupsQueryOptions,
+    select: (data) => data.find((item) => item.slug === groupSlug),
+  });
 
   const { toast } = useToast();
   const navigate = useNavigate();
   const deleteBookmarkGroup = useDeleteBookmakrGroup();
 
   const handleDelete = () => {
-    if (activeBookmarkGroupID) {
-      deleteBookmarkGroup.mutate(activeBookmarkGroupID, {
+    if (activeBookmarkGroup) {
+      deleteBookmarkGroup.mutate(activeBookmarkGroup.id, {
         onError: () => {
           toast({
             description:
@@ -72,8 +72,8 @@ const DeleteGroupDialog = ({
           <AlertDialogDescription asChild>
             <div>
               <p>
-                Deleting {`Bookmark Group`} will delete all bookmarks associated
-                with it.
+                Deleting {`"${activeBookmarkGroup?.name}"`} will delete all
+                bookmarks associated with it.
               </p>
               <p>
                 <strong>You will not be able to recover this data</strong>
