@@ -1,5 +1,11 @@
 import React from "react";
-import { Check, ChevronsUpDown, CirclePlus } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  CirclePlus,
+  CircleX,
+  FilePenLine,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useParams, Link } from "@tanstack/react-router";
@@ -12,10 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
-import NewGroupDialog from "./new-group-dialog";
+import NewGroupDialog from "@/components/app/header/new-group-dialog";
+import DeleteGroupDialog from "@/components/app/header/delete-group-dialog";
 
 export default function GroupsMenu() {
   const [showNewGroupDialog, setShowNewGroupDialog] = React.useState(false);
+  const [showDeleteGroupDialog, setShowDeleteGroupDialog] =
+    React.useState(false);
   const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupsQueryOptions);
   const params = useParams({ strict: false });
   const groupSlug = params.groupSlug || null;
@@ -76,14 +85,33 @@ export default function GroupsMenu() {
             onSelect={() => setShowNewGroupDialog(true)}
             className="hover:cursor-pointer"
           >
-            <CirclePlus className="mr-2 h-4 w-4 shrink-0 text-primary opacity-100" />
-            <span className="text-primary">New Group</span>
+            <CirclePlus className="mr-2 h-4 w-4 shrink-0 opacity-100" />
+            <span className="">New Group</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="hover:cursor-pointer"
+            disabled={!groupSlug}
+          >
+            <FilePenLine className="mr-2 h-4 w-4 shrink-0 opacity-100" />
+            <span className="">Edit Group</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={() => setShowDeleteGroupDialog(true)}
+            className="hover:cursor-pointer"
+            disabled={!groupSlug}
+          >
+            <CircleX className="mr-2 h-4 w-4 shrink-0 opacity-100" />
+            <span className="">Delete Group</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <NewGroupDialog
         showNewGroupDialog={showNewGroupDialog}
         setShowNewGroupDialog={setShowNewGroupDialog}
+      />
+      <DeleteGroupDialog
+        showDeleteGroupDialog={showDeleteGroupDialog}
+        setShowDeleteGroupDialog={setShowDeleteGroupDialog}
       />
     </React.Fragment>
   );
