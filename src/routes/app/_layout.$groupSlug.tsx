@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import AppMain from "@/components/app/main";
 
 export const Route = createFileRoute("/app/_layout/$groupSlug")({
   beforeLoad: async ({ params, context: { queryClient } }) => {
@@ -16,10 +17,5 @@ export const Route = createFileRoute("/app/_layout/$groupSlug")({
       });
     }
   },
-  component: GroupComponent,
+  component: AppMain,
 });
-
-function GroupComponent() {
-  const { groupSlug } = Route.useParams();
-  return <div>Group {groupSlug}</div>;
-}

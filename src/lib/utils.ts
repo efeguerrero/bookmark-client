@@ -11,3 +11,10 @@ export const generateSlug = (name: string) => {
     .replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "");
 };
+
+export function normalizeUrl(url: string): string {
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    return `https://${url.startsWith("www.") ? "" : "www."}${url}`;
+  }
+  return url;
+}
