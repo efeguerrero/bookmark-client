@@ -206,7 +206,7 @@ export const useDeleteBookmark = () => {
 
       const response = await res.json();
 
-      console.log("deleted from server", response);
+      // console.log("deleted from server", response);
 
       return response;
     },

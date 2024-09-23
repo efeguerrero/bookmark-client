@@ -4,6 +4,7 @@ import { bookmarkQueryOptions } from "@/lib/queries/queryOptions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 export default function BookmarkManager() {
+  // This should happen first at the loader.
   const { data: bookmarks } = useSuspenseQuery(bookmarkQueryOptions);
 
   return (

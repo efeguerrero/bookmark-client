@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Globe, X, CircleCheck } from "lucide-react";
+import { Globe, X, Trash2 } from "lucide-react";
 import { ReactNode } from "@tanstack/react-router";
 import { useDeleteBookmark } from "@/lib/mutations";
 
@@ -93,7 +93,6 @@ export const Delete = ({ bookmarkId, ...props }: ActionProps) => {
 
   const handleDelete = (bookmarkId: string) => {
     if (showDelete) {
-      console.log("deleting", bookmarkId);
       deleteBookmark.mutate(bookmarkId, {
         onError: () => {
           console.log("error deleting bookmark");
@@ -113,6 +112,7 @@ export const Delete = ({ bookmarkId, ...props }: ActionProps) => {
   return (
     <Button
       variant="ghost"
+      disabled={deleteBookmark.isPending}
       onClick={() => handleDelete(bookmarkId)}
       size="icon"
       className="absolute right-2 top-2 h-8 w-8"
@@ -120,7 +120,7 @@ export const Delete = ({ bookmarkId, ...props }: ActionProps) => {
       {...props}
     >
       {showDelete ? (
-        <CircleCheck className="h-4 w-4 text-destructive" />
+        <Trash2 className="h-4 w-4 text-destructive" />
       ) : (
         <X className="h-4 w-4" />
       )}
