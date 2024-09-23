@@ -41,6 +41,7 @@ const BookmarkInput = () => {
             toast({
               title: "There was an error!",
               description: "Bookmark already exists.",
+              variant: "destructive",
             });
           }
 
@@ -48,12 +49,17 @@ const BookmarkInput = () => {
             toast({
               title: "There was an error!",
               description: "Invalid URL or we couldn't scan this website",
+              variant: "destructive",
             });
           }
-          toast({
-            title: "There was an error!",
-            description: "Please try again later",
-          });
+
+          if (error.message !== "409" && error.message !== "400") {
+            toast({
+              title: "There was an error!",
+              description: "Please try again later",
+              variant: "destructive",
+            });
+          }
         },
         onSettled: () => {
           form.reset();
