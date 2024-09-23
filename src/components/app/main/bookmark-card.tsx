@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import { Globe } from "lucide-react";
 import { ReactNode } from "@tanstack/react-router";
 
 export const Root = ({ children }: { children: ReactNode }) => {
@@ -24,10 +24,18 @@ export const Content = ({ children }: { children: ReactNode }) => {
   return <div className="min-w-0 flex-grow">{children}</div>;
 };
 
-export const Icon = ({ imageURL }: { imageURL: string }) => {
+export const Icon = ({ imageURL }: { imageURL: string | null }) => {
   return (
     <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
-      <img src={imageURL} alt="" className="h-full w-full object-cover" />
+      {imageURL ? (
+        <img
+          src={imageURL}
+          alt=""
+          className="h-full w-full object-scale-down"
+        />
+      ) : (
+        <Globe className="size-6" />
+      )}
     </div>
   );
 };

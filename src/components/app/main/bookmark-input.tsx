@@ -33,7 +33,7 @@ const BookmarkInput = () => {
       setFormError(false);
       const values = {
         url: urlInput,
-        groupId: activeBookmarkGroup?.id || null,
+        group_id: activeBookmarkGroup?.id || null,
       };
       newBookmark.mutate(values, {
         onError: (error) => {

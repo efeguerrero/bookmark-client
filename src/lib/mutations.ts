@@ -1,6 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/queryClient";
-import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import {
+  bookmarkGroupsQueryOptions,
+  bookmarkQueryOptions,
+} from "@/lib/queries/queryOptions";
 import { z } from "zod";
 import { newBookmarkGroup, bookmarkGroup } from "./schemas";
 import { getSessionToken } from "@/lib/sessionToken.ts";
@@ -140,7 +143,7 @@ export const useUpdateBookmarkGroup = () => {
 };
 
 export const useNewBookmark = () => {
-  type InputType = Pick<Bookmark, "url" | "groupId">;
+  type InputType = Pick<Bookmark, "url" | "group_id">;
   return useMutation({
     mutationFn: async (input: InputType): Promise<Bookmark> => {
       const res = await fetch("http://localhost:8080/bookmark", {
@@ -158,8 +161,28 @@ export const useNewBookmark = () => {
 
       const response = await res.json();
 
-      console.log(response);
+      console.log("New bookmark response", response);
       return response;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(bookmarkQueryOptions.queryKey, (oldData) => {
+        if (oldData) {
+          const newData: Bookmark[] = [...oldData, data];
+
+          newData.sort((a, b) => {
+            const nameA = a.title.toLowerCase();
+            const nameB = b.title.toLowerCase();
+
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+          });
+
+          return newData;
+        }
+
+        return [data];
+      });
     },
   });
 };

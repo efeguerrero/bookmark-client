@@ -34,9 +34,9 @@ export const customUrlSchema = z.string().refine((val) => urlRegex.test(val), {
 export const bookmarkSchema = z.object({
   id: uuidSchema,
   title: z.string().min(1, { message: "Bookmark title cannot be empty" }),
-  description: z.string().nullish(),
-  faviconURL: z.string().nullish(),
+  description: z.string().nullable(),
+  favicon_url: z.string().nullable(),
   url: customUrlSchema,
-  groupId: uuidSchema.nullish(),
-  createdAt: z.string().date(),
+  group_id: uuidSchema.nullable(),
+  created_at: z.string().date(),
 });

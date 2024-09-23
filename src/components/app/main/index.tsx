@@ -2,36 +2,12 @@
 import BookmarkInput from "./bookmark-input";
 import { X } from "lucide-react";
 import * as Card from "./bookmark-card";
-
-interface Bookmark {
-  id: number;
-  url: string;
-  title: string;
-  description: string;
-  favicon: string;
-  createdAt: string;
-}
-
-const bookmarks = [
-  {
-    id: 1,
-    url: "https://franguererro.dev",
-    title: "Francisco Guerrero",
-    description: "Personal website",
-    favicon: "/placeholder.svg?height=16&width=16",
-    createdAt: "Sep 20",
-  },
-  {
-    id: 2,
-    url: "https://tailwindcss.com",
-    title: "Tailwind CSS - Rapidly build modern websites...",
-    description: "A utility-first CSS framework packed with classes...",
-    favicon: "/placeholder.svg?height=16&width=16",
-    createdAt: "Sep 03",
-  },
-];
+import { bookmarkQueryOptions } from "@/lib/queries/queryOptions";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export default function BookmarkManager() {
+  const { data: bookmarks } = useSuspenseQuery(bookmarkQueryOptions);
+
   const deleteBookmark = () => {
     console.log("pressed");
   };
@@ -42,16 +18,16 @@ export default function BookmarkManager() {
         <BookmarkInput />
       </div>
       <div className="flex flex-wrap gap-4">
-        {bookmarks.map((bookmark: Bookmark) => (
+        {bookmarks.map((bookmark) => (
           <Card.Root key={bookmark.id}>
             <Card.Body>
-              <Card.Icon imageURL={bookmark.favicon} />
+              <Card.Icon imageURL={bookmark.favicon_url} />
               <Card.Content>
                 <Card.Title>{bookmark.title}</Card.Title>
                 <Card.Description>{bookmark.description}</Card.Description>
                 <Card.Footer>
                   <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
-                  <Card.Date>{bookmark.createdAt}</Card.Date>
+                  {/* <Card.Date>{bookmark.created_at}</Card.Date> */}
                 </Card.Footer>
                 <Card.Action onClick={() => deleteBookmark()}>
                   <X className="h-4 w-4" />
