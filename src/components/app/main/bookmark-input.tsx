@@ -1,10 +1,23 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { customUrlSchema } from "@/lib/schemas";
-import { normalizeUrl } from "@/lib/utils";
+import { useNewBookmark } from "@/lib/mutations";
+import { useParams } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import { useToast } from "@/hooks/use-toast";
 
 const BookmarkInput = () => {
   const [formError, setFormError] = React.useState(false);
+  const newBookmark = useNewBookmark();
+  const { toast } = useToast();
+
+  const { groupSlug } = useParams({ strict: false });
+
+  const { data: activeBookmarkGroup } = useSuspenseQuery({
+    ...bookmarkGroupsQueryOptions,
+    select: (data) => data.find((item) => item.slug === groupSlug),
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,18 +26,39 @@ const BookmarkInput = () => {
     const result = customUrlSchema.safeParse(urlInput);
 
     if (result.error) {
-      console.log(urlInput, "this is not a valid url");
       setFormError(true);
     }
 
     if (!result.error) {
-      form.reset();
       setFormError(false);
-      const res = await fetch(normalizeUrl(urlInput), {
-        mode: "no-cors",
+      const values = {
+        url: urlInput,
+        groupId: activeBookmarkGroup?.id || null,
+      };
+      newBookmark.mutate(values, {
+        onError: (error) => {
+          if (error.message === "409") {
+            toast({
+              title: "There was an error!",
+              description: "Bookmark already exists.",
+            });
+          }
+
+          if (error.message === "400") {
+            toast({
+              title: "There was an error!",
+              description: "Invalid URL or we couldn't scan this website",
+            });
+          }
+          toast({
+            title: "There was an error!",
+            description: "Please try again later",
+          });
+        },
+        onSettled: () => {
+          form.reset();
+        },
       });
-      const html = await res.text();
-      console.log(html);
     }
   };
 
@@ -34,6 +68,7 @@ const BookmarkInput = () => {
         name="url"
         type="text"
         placeholder="Insert a link to save it"
+        disabled={newBookmark.isPending}
         className="w-full rounded-lg"
       />
       {formError && (

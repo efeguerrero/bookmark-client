@@ -4,7 +4,7 @@ import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
 import { z } from "zod";
 import { newBookmarkGroup, bookmarkGroup } from "./schemas";
 import { getSessionToken } from "@/lib/sessionToken.ts";
-import { BookmarkGroup } from "./types";
+import { BookmarkGroup, Bookmark } from "./types";
 
 export const useNewBookmarkGroup = () => {
   type Inputs = z.infer<typeof newBookmarkGroup>;
@@ -135,6 +135,31 @@ export const useUpdateBookmarkGroup = () => {
           return;
         },
       );
+    },
+  });
+};
+
+export const useNewBookmark = () => {
+  type InputType = Pick<Bookmark, "url" | "groupId">;
+  return useMutation({
+    mutationFn: async (input: InputType): Promise<Bookmark> => {
+      const res = await fetch("http://localhost:8080/bookmark", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${await getSessionToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      if (!res.ok) {
+        throw new Error(`${res.status}`);
+      }
+
+      const response = await res.json();
+
+      console.log(response);
+      return response;
     },
   });
 };
