@@ -186,3 +186,39 @@ export const useNewBookmark = () => {
     },
   });
 };
+
+export const useDeleteBookmark = () => {
+  type Id = Bookmark["id"];
+  type Return = Pick<Bookmark, "id" | "title">;
+
+  return useMutation({
+    mutationFn: async (id: Id): Promise<Return> => {
+      const res = await fetch(`http://localhost:8080/bookmark/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getSessionToken()}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`${res.status}`);
+      }
+
+      const response = await res.json();
+
+      console.log("deleted from server", response);
+
+      return response;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(bookmarkQueryOptions.queryKey, (oldData) => {
+        if (oldData) {
+          const newData = oldData.filter((item) => item.id !== data.id);
+          return newData;
+        }
+
+        return [];
+      });
+    },
+  });
+};

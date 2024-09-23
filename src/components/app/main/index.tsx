@@ -1,16 +1,10 @@
-// import React from "react";
 import BookmarkInput from "./bookmark-input";
-import { X } from "lucide-react";
 import * as Card from "./bookmark-card";
 import { bookmarkQueryOptions } from "@/lib/queries/queryOptions";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 export default function BookmarkManager() {
   const { data: bookmarks } = useSuspenseQuery(bookmarkQueryOptions);
-
-  const deleteBookmark = () => {
-    console.log("pressed");
-  };
 
   return (
     <div className="space-y-6 p-4">
@@ -29,9 +23,7 @@ export default function BookmarkManager() {
                   <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
                   {/* <Card.Date>{bookmark.created_at}</Card.Date> */}
                 </Card.Footer>
-                <Card.Action onClick={() => deleteBookmark()}>
-                  <X className="h-4 w-4" />
-                </Card.Action>
+                <Card.Delete bookmarkId={bookmark.id} />
               </Card.Content>
             </Card.Body>
           </Card.Root>

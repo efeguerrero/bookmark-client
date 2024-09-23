@@ -1,8 +1,9 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Globe } from "lucide-react";
+import { Globe, X, CircleCheck } from "lucide-react";
 import { ReactNode } from "@tanstack/react-router";
+import { useDeleteBookmark } from "@/lib/mutations";
 
 export const Root = ({ children }: { children: ReactNode }) => {
   return (
@@ -83,19 +84,46 @@ type ActionProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "className"
 > & {
-  children: ReactNode;
+  bookmarkId: string;
 };
 
-export const Action = ({ children, ...props }: ActionProps) => {
+export const Delete = ({ bookmarkId, ...props }: ActionProps) => {
+  const [showDelete, setShowDelete] = React.useState(false);
+  const deleteBookmark = useDeleteBookmark();
+
+  const handleDelete = (bookmarkId: string) => {
+    if (showDelete) {
+      console.log("deleting", bookmarkId);
+      deleteBookmark.mutate(bookmarkId, {
+        onError: () => {
+          console.log("error deleting bookmark");
+        },
+      });
+    }
+
+    setShowDelete(true);
+
+    setTimeout(() => {
+      if (deleteBookmark.isIdle || deleteBookmark.isError) {
+        setShowDelete(false);
+      }
+    }, 3000);
+  };
+
   return (
     <Button
       variant="ghost"
+      onClick={() => handleDelete(bookmarkId)}
       size="icon"
       className="absolute right-2 top-2 h-8 w-8"
       aria-label="Delete bookmark"
       {...props}
     >
-      {children}
+      {showDelete ? (
+        <CircleCheck className="h-4 w-4 text-destructive" />
+      ) : (
+        <X className="h-4 w-4" />
+      )}
     </Button>
   );
 };
