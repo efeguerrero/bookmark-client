@@ -1,7 +1,7 @@
-2. If we have a favicon_url but it is invalid we still need to show something. how?
+10. Input box should also be used for searching for bookmarks with controlled state drilled from theindex.tsx
 3. We must be able to change groups for a bookmark? check bkms.com with right click.
 4. Will we allow custom naming for bookmarks?
-5. Trashcan button bg red with {cn}
 6. Toasts sometimes don't leave the screen
-7. refactor bookmark-card and index.tsx. We need an intermediate layer so that we can keep bookmark-card as only a presentational layer and have a CARD component that has a SINGLE card that shares state. Index.tsx will map over a single <Card bookmark={bookmark]/>
+5. Trashcan button bg red with {cn}
+2. Creating a bookmark has too much delay because of network calls. We need to give the user feedback sooner.
 8. We are NEVER setting our queries as stale so we will never refetch in the background. Maybe set something like 3 minutes?

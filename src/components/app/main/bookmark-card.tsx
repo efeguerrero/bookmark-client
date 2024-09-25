@@ -1,99 +1,19 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Globe, X, Trash2 } from "lucide-react";
-import { ReactNode } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
 import { useDeleteBookmark } from "@/lib/mutations";
+import * as Card from "./bookmark-card-elements";
+import { Bookmark } from "@/lib/types";
+import { X, Trash2 } from "lucide-react";
 
-export const Root = ({ children }: { children: ReactNode }) => {
-  return (
-    <Card className="relative w-full overflow-hidden rounded-lg sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.75rem)] xl:w-[calc(25%-0.75rem)]">
-      {children}
-    </Card>
-  );
-};
-
-export const Body = ({ children }: { children: ReactNode }) => {
-  return (
-    <CardContent className="flex items-start space-x-4 p-6">
-      {children}
-    </CardContent>
-  );
-};
-
-export const Content = ({ children }: { children: ReactNode }) => {
-  return <div className="min-w-0 flex-grow">{children}</div>;
-};
-
-export const Icon = ({ imageURL }: { imageURL: string | null }) => {
-  return (
-    <div className="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
-      {imageURL ? (
-        <img
-          src={imageURL}
-          alt=""
-          className="h-full w-full object-scale-down"
-        />
-      ) : (
-        <Globe className="size-6" />
-      )}
-    </div>
-  );
-};
-
-export const Title = ({ children }: { children: ReactNode }) => {
-  return <h3 className="mb-1 truncate text-lg font-semibold">{children}</h3>;
-};
-
-export const Description = ({ children }: { children: ReactNode }) => {
-  return (
-    <p className="mb-2 line-clamp-2 text-xs text-muted-foreground">
-      {children}
-    </p>
-  );
-};
-
-export const Footer = ({ children }: { children: ReactNode }) => {
-  return <div className="flex items-center justify-between">{children}</div>;
-};
-
-export const Link = ({
-  children,
-  href,
-}: {
-  children: ReactNode;
-  href: string;
-}) => {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="max-w-[calc(100%-4rem)] truncate text-sm text-primary hover:underline"
-    >
-      {children}
-    </a>
-  );
-};
-
-export const Date = ({ children }: { children: ReactNode }) => {
-  return <span className="text-xs text-muted-foreground">{children}</span>;
-};
-
-type ActionProps = Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "className"
-> & {
-  bookmarkId: string;
-};
-
-export const Delete = ({ bookmarkId, ...props }: ActionProps) => {
+export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
   const [showDelete, setShowDelete] = React.useState(false);
   const deleteBookmark = useDeleteBookmark();
 
-  const handleDelete = (bookmarkId: string) => {
+  const handleDelete = () => {
     if (showDelete) {
-      deleteBookmark.mutate(bookmarkId, {
+      console.log(bookmark.id);
+
+      deleteBookmark.mutate(bookmark.id, {
         onError: () => {
           console.log("error deleting bookmark");
         },
@@ -110,20 +30,27 @@ export const Delete = ({ bookmarkId, ...props }: ActionProps) => {
   };
 
   return (
-    <Button
-      variant="ghost"
-      disabled={deleteBookmark.isPending}
-      onClick={() => handleDelete(bookmarkId)}
-      size="icon"
-      className="absolute right-2 top-2 h-8 w-8"
-      aria-label="Delete bookmark"
-      {...props}
-    >
-      {showDelete ? (
-        <Trash2 className="h-4 w-4 text-destructive" />
-      ) : (
-        <X className="h-4 w-4" />
-      )}
-    </Button>
+    <Card.Root className={cn(deleteBookmark.isPending && "opacity-50")}>
+      <Card.Body>
+        <Card.Icon imageURL={bookmark.faviconURL} />
+        <Card.Content>
+          <Card.Title>{bookmark.title}</Card.Title>
+          <Card.Description>{bookmark.description}</Card.Description>
+          <Card.Footer>
+            <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
+          </Card.Footer>
+          <Card.Action
+            disabled={deleteBookmark.isPending}
+            onClick={() => handleDelete()}
+          >
+            {showDelete ? (
+              <Trash2 className="h-4 w-4 text-destructive" />
+            ) : (
+              <X className="h-4 w-4" />
+            )}
+          </Card.Action>
+        </Card.Content>
+      </Card.Body>
+    </Card.Root>
   );
-};
+}
