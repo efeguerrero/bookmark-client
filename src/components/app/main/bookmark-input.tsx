@@ -17,7 +17,7 @@ const BookmarkInput = () => {
     bookmarkGroupQueries.findBySlug(groupSlug),
   );
 
-  console.log(activeBookmarkGroup);
+  // console.log(activeBookmarkGroup);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

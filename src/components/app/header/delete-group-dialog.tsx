@@ -44,6 +44,8 @@ const DeleteGroupDialog = ({
           });
         },
         onSuccess: () => {
+          console.log("navigating");
+
           navigate({ to: "/app", replace: true });
           toast({
             description: "Group deleted",

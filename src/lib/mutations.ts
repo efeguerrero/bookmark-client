@@ -75,7 +75,25 @@ export const useDeleteBookmarkGroup = () => {
 
       return response;
     },
-    onSuccess: (_, id) => {
+    onSuccess: async (_, id) => {
+      // We first remove deleted bookmarks to avoid removed cards flashing on update
+      queryClient.setQueryData(bookmarkQueries.all().queryKey, (oldData) => {
+        if (oldData) {
+          const newData = oldData.filter((item) => item.groupId !== id);
+
+          newData.sort((a, b) => {
+            const nameA = a.title.toLowerCase();
+            const nameB = b.title.toLowerCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return +1;
+            return 0;
+          });
+
+          return newData;
+        }
+        return;
+      });
+
       queryClient.setQueryData(
         bookmarkGroupQueries.all().queryKey,
         (oldData) => {

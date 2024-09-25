@@ -1,8 +1,7 @@
-1. When we delete bookmarkGroup we are deleting in the database but we need to update our bookmarkQuery
 2. If we have a favicon_url but it is invalid we still need to show something. how?
 3. We must be able to change groups for a bookmark? check bkms.com with right click.
-4. Will we allow custom naming?
-5. Changed BookmarkSchema to have snake_case instead of camel because of how I get the data from the DB. Check errors and also study how is that managed because in the server, with the linter, I'm forced to use CamelCase
-6. Trashcan button bg red with {cn}
-7. Toasts sometimes don't leave the screen
-8. refactor bookmark-card and index.tsx. We need an intermediate layer so that we can keep bookmark-card as only a presentational layer and have a CARD component that has a SINGLE card that shares state. Index.tsx will map over a single <Card bookmark={bookmark]/>
+4. Will we allow custom naming for bookmarks?
+5. Trashcan button bg red with {cn}
+6. Toasts sometimes don't leave the screen
+7. refactor bookmark-card and index.tsx. We need an intermediate layer so that we can keep bookmark-card as only a presentational layer and have a CARD component that has a SINGLE card that shares state. Index.tsx will map over a single <Card bookmark={bookmark]/>
+8. We are NEVER setting our queries as stale so we will never refetch in the background. Maybe set something like 3 minutes?
