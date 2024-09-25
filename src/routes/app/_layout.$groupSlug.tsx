@@ -1,11 +1,11 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 import AppMain from "@/components/app/main";
 
 export const Route = createFileRoute("/app/_layout/$groupSlug")({
   beforeLoad: async ({ params, context: { queryClient } }) => {
     const bookMarkGroups = await queryClient.ensureQueryData(
-      bookmarkGroupsQueryOptions,
+      bookmarkGroupQueries.all(),
     );
 
     const validSlug = bookMarkGroups.find(

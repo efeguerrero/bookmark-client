@@ -35,8 +35,8 @@ export const bookmarkSchema = z.object({
   id: uuidSchema,
   title: z.string().min(1, { message: "Bookmark title cannot be empty" }),
   description: z.string().nullable(),
-  favicon_url: z.string().nullable(),
+  faviconURL: z.string().nullable(),
   url: customUrlSchema,
-  group_id: uuidSchema.nullable(),
-  created_at: z.string().date(),
+  groupId: uuidSchema.nullable(),
+  createdAt: z.string().date(),
 });

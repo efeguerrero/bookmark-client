@@ -1,4 +1,4 @@
-1. Show bookmarks filtered by group
+1. When we delete bookmarkGroup we are deleting in the database but we need to update our bookmarkQuery
 2. If we have a favicon_url but it is invalid we still need to show something. how?
 3. We must be able to change groups for a bookmark? check bkms.com with right click.
 4. Will we allow custom naming?

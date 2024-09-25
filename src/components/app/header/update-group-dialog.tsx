@@ -20,7 +20,7 @@ import { useUpdateBookmarkGroup } from "@/lib/mutations";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useParams, useNavigate } from "@tanstack/react-router";
-import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 
 const EditGroupDialog = ({
   showEditGroupDialog,
@@ -33,11 +33,10 @@ const EditGroupDialog = ({
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const { groupSlug } = useParams({ strict: false });
-  const { data: activeBookmarkGroup } = useSuspenseQuery({
-    ...bookmarkGroupsQueryOptions,
-    select: (data) => data.find((item) => item.slug === groupSlug),
-  });
+  const groupSlug = useParams({ strict: false }).groupSlug || null;
+  const { data: activeBookmarkGroup } = useSuspenseQuery(
+    bookmarkGroupQueries.findBySlug(groupSlug),
+  );
 
   const form = useForm<z.infer<typeof newBookmarkGroup>>({
     resolver: zodResolver(newBookmarkGroup),

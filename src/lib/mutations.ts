@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/queryClient";
 import {
-  bookmarkGroupsQueryOptions,
-  bookmarkQueryOptions,
+  bookmarkGroupQueries,
+  bookmarkQueries,
 } from "@/lib/queries/queryOptions";
 import { z } from "zod";
 import { newBookmarkGroup, bookmarkGroup } from "./schemas";
@@ -33,7 +33,7 @@ export const useNewBookmarkGroup = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(
-        bookmarkGroupsQueryOptions.queryKey,
+        bookmarkGroupQueries.all().queryKey,
         (oldData) => {
           if (oldData) {
             const newData = [...oldData, data];
@@ -77,7 +77,7 @@ export const useDeleteBookmarkGroup = () => {
     },
     onSuccess: (_, id) => {
       queryClient.setQueryData(
-        bookmarkGroupsQueryOptions.queryKey,
+        bookmarkGroupQueries.all().queryKey,
         (oldData) => {
           if (oldData) {
             const newData = oldData.filter((item) => item.id !== id);
@@ -114,7 +114,7 @@ export const useUpdateBookmarkGroup = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(
-        bookmarkGroupsQueryOptions.queryKey,
+        bookmarkGroupQueries.all().queryKey,
         (oldData) => {
           if (oldData) {
             const newData = oldData.map((item) => {
@@ -143,7 +143,7 @@ export const useUpdateBookmarkGroup = () => {
 };
 
 export const useNewBookmark = () => {
-  type InputType = Pick<Bookmark, "url" | "group_id">;
+  type InputType = Pick<Bookmark, "url" | "groupId">;
   return useMutation({
     mutationFn: async (input: InputType): Promise<Bookmark> => {
       const res = await fetch("http://localhost:8080/bookmark", {
@@ -165,7 +165,7 @@ export const useNewBookmark = () => {
       return response;
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(bookmarkQueryOptions.queryKey, (oldData) => {
+      queryClient.setQueryData(bookmarkQueries.all().queryKey, (oldData) => {
         if (oldData) {
           const newData: Bookmark[] = [...oldData, data];
 
@@ -211,7 +211,7 @@ export const useDeleteBookmark = () => {
       return response;
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(bookmarkQueryOptions.queryKey, (oldData) => {
+      queryClient.setQueryData(bookmarkQueries.all().queryKey, (oldData) => {
         if (oldData) {
           const newData = oldData.filter((item) => item.id !== data.id);
           return newData;

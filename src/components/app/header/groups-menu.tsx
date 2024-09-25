@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 import NewGroupDialog from "@/components/app/header/new-group-dialog";
 import DeleteGroupDialog from "@/components/app/header/delete-group-dialog";
 import EditGroupDialog from "@/components/app/header/update-group-dialog";
@@ -27,7 +27,7 @@ export default function GroupsMenu() {
   const [showDeleteGroupDialog, setShowDeleteGroupDialog] =
     React.useState(false);
   const [showEditGroupDialog, setShowEditGroupDialog] = React.useState(false);
-  const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupsQueryOptions);
+  const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupQueries.all());
   const params = useParams({ strict: false });
   const groupSlug = params.groupSlug || null;
 

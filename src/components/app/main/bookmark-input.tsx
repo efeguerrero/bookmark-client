@@ -4,7 +4,7 @@ import { customUrlSchema } from "@/lib/schemas";
 import { useNewBookmark } from "@/lib/mutations";
 import { useParams } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 import { useToast } from "@/hooks/use-toast";
 
 const BookmarkInput = () => {
@@ -12,12 +12,12 @@ const BookmarkInput = () => {
   const newBookmark = useNewBookmark();
   const { toast } = useToast();
 
-  const { groupSlug } = useParams({ strict: false });
+  const groupSlug = useParams({ strict: false }).groupSlug || null;
+  const { data: activeBookmarkGroup } = useSuspenseQuery(
+    bookmarkGroupQueries.findBySlug(groupSlug),
+  );
 
-  const { data: activeBookmarkGroup } = useSuspenseQuery({
-    ...bookmarkGroupsQueryOptions,
-    select: (data) => data.find((item) => item.slug === groupSlug),
-  });
+  console.log(activeBookmarkGroup);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,8 +33,9 @@ const BookmarkInput = () => {
       setFormError(false);
       const values = {
         url: urlInput,
-        group_id: activeBookmarkGroup?.id || null,
+        groupId: activeBookmarkGroup?.id || null,
       };
+
       newBookmark.mutate(values, {
         onError: (error) => {
           if (error.message === "409") {

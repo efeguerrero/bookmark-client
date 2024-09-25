@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDeleteBookmarkGroup } from "@/lib/mutations";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { bookmarkGroupsQueryOptions } from "@/lib/queries/queryOptions";
+import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 import { useParams, useNavigate } from "@tanstack/react-router";
 import { useToast } from "@/hooks/use-toast";
 import * as Icons from "@/components/ui/icons";
@@ -25,11 +25,10 @@ const DeleteGroupDialog = ({
   showDeleteGroupDialog,
   setShowDeleteGroupDialog,
 }: Props) => {
-  const { groupSlug } = useParams({ strict: false });
-  const { data: activeBookmarkGroup } = useSuspenseQuery({
-    ...bookmarkGroupsQueryOptions,
-    select: (data) => data.find((item) => item.slug === groupSlug),
-  });
+  const groupSlug = useParams({ strict: false }).groupSlug || null;
+  const { data: activeBookmarkGroup } = useSuspenseQuery(
+    bookmarkGroupQueries.findBySlug(groupSlug),
+  );
 
   const { toast } = useToast();
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
 import Header from "@/components/app/header/";
 import {
-  bookmarkGroupsQueryOptions,
-  bookmarkQueryOptions,
+  bookmarkGroupQueries,
+  bookmarkQueries,
 } from "@/lib/queries/queryOptions";
 import * as Icons from "@/components/ui/icons";
 
@@ -18,8 +18,8 @@ export const Route = createFileRoute("/app/_layout")({
     }
   },
   loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(bookmarkGroupsQueryOptions);
-    await queryClient.ensureQueryData(bookmarkQueryOptions);
+    await queryClient.ensureQueryData(bookmarkGroupQueries.all());
+    await queryClient.ensureQueryData(bookmarkQueries.all());
   },
   component: App,
   pendingComponent: () => {
