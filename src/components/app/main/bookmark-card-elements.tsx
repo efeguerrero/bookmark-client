@@ -50,7 +50,9 @@ export const Icon = ({ imageURL }: { imageURL: string | null }) => {
 };
 
 export const Title = ({ children }: { children: ReactNode }) => {
-  return <h3 className="mb-1 truncate text-lg font-semibold">{children}</h3>;
+  return (
+    <h3 className="mb-1 mr-2 truncate text-lg font-semibold">{children}</h3>
+  );
 };
 
 export const Description = ({ children }: { children: ReactNode }) => {

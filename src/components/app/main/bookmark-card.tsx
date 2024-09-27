@@ -11,7 +11,7 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
 
   const handleDelete = () => {
     if (showDelete) {
-      console.log(bookmark.id);
+      // console.log(bookmark.id);
 
       deleteBookmark.mutate(bookmark.id, {
         onError: () => {
@@ -45,6 +45,10 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
             <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
           </Card.Footer>
           <Card.Action
+            className={cn(
+              showDelete &&
+                "bg-destructive/10 transition-none hover:bg-destructive/10",
+            )}
             disabled={deleteBookmark.isPending}
             onClick={() => handleDelete()}
           >
