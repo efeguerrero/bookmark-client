@@ -30,7 +30,12 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
   };
 
   return (
-    <Card.Root className={cn(deleteBookmark.isPending && "opacity-50")}>
+    <Card.Root
+      className={cn(
+        "hover:bg-muted-foreground/[7%]",
+        deleteBookmark.isPending && "opacity-50",
+      )}
+    >
       <Card.Body>
         <Card.Icon imageURL={bookmark.faviconURL} />
         <Card.Content>

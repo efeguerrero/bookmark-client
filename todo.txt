@@ -1,4 +1,3 @@
-10. Input box should also be used for searching for bookmarks with controlled state drilled from theindex.tsx
 3. We must be able to change groups for a bookmark? check bkms.com with right click.
 4. Will we allow custom naming for bookmarks?
 6. Toasts sometimes don't leave the screen

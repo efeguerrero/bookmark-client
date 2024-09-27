@@ -50,9 +50,16 @@ export const bookmarkQueries = {
         return response;
       },
     }),
-  filteredByGroup: (groupId: Bookmark["groupId"]) =>
+  // This query could be avoided with just JS. Did it just to try out query Factories
+  filteredByGroup: (groupId: Bookmark["groupId"] | undefined) =>
     queryOptions({
       ...bookmarkQueries.all(),
-      select: (data) => data.filter((item) => item.groupId === groupId),
+      select: (data) =>
+        data.filter((item) => {
+          if (groupId) {
+            return item.groupId === groupId;
+          }
+          return true;
+        }),
     }),
 };

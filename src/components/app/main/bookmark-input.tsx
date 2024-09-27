@@ -7,7 +7,12 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 import { useToast } from "@/hooks/use-toast";
 
-const BookmarkInput = () => {
+interface Props {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const BookmarkInput = ({ inputValue, setInputValue }: Props) => {
   const [formError, setFormError] = React.useState(false);
   const newBookmark = useNewBookmark();
   const { toast } = useToast();
@@ -17,13 +22,11 @@ const BookmarkInput = () => {
     bookmarkGroupQueries.findBySlug(groupSlug),
   );
 
-  // console.log(activeBookmarkGroup);
+  // console.log(inputValue);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const urlInput = form.url.value;
-    const result = customUrlSchema.safeParse(urlInput);
+    const result = customUrlSchema.safeParse(inputValue);
 
     if (result.error) {
       setFormError(true);
@@ -32,7 +35,7 @@ const BookmarkInput = () => {
     if (!result.error) {
       setFormError(false);
       const values = {
-        url: urlInput,
+        url: inputValue,
         groupId: activeBookmarkGroup?.id || null,
       };
 
@@ -63,7 +66,7 @@ const BookmarkInput = () => {
           }
         },
         onSettled: () => {
-          form.reset();
+          setInputValue("");
         },
       });
     }
@@ -73,8 +76,10 @@ const BookmarkInput = () => {
     <form onSubmit={handleSubmit}>
       <Input
         name="url"
+        onChange={(e) => setInputValue(e.currentTarget.value)}
+        value={inputValue}
         type="text"
-        placeholder="Insert a link to save it"
+        placeholder="Search for a bookmark or create a new one."
         disabled={newBookmark.isPending}
         className="w-full rounded-lg"
       />
