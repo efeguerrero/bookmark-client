@@ -2,3 +2,4 @@
 6. Toasts sometimes don't leave the screen + Review all toast messages
 2. Creating a bookmark has too much delay because of network calls. We need to give the user feedback sooner.
 4. Add disclaimer
+5. remove unused dependencies

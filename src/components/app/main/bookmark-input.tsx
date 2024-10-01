@@ -5,7 +5,7 @@ import { useNewBookmark } from "@/lib/mutations";
 import { useParams } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface Props {
   inputValue: string;
@@ -15,7 +15,6 @@ interface Props {
 const BookmarkInput = ({ inputValue, setInputValue }: Props) => {
   const [formError, setFormError] = React.useState(false);
   const newBookmark = useNewBookmark();
-  const { toast } = useToast();
 
   const groupSlug = useParams({ strict: false }).groupSlug || null;
   const { data: activeBookmarkGroup } = useSuspenseQuery(
@@ -42,27 +41,15 @@ const BookmarkInput = ({ inputValue, setInputValue }: Props) => {
       newBookmark.mutate(values, {
         onError: (error) => {
           if (error.message === "409") {
-            toast({
-              title: "There was an error!",
-              description: "Bookmark already exists.",
-              variant: "destructive",
-            });
+            toast.error("Bookmark already exists.");
           }
 
           if (error.message === "400") {
-            toast({
-              title: "There was an error!",
-              description: "Invalid URL or we couldn't scan this website",
-              variant: "destructive",
-            });
+            toast.error("Invalid URL or we couldn't scan this website");
           }
 
           if (error.message !== "409" && error.message !== "400") {
-            toast({
-              title: "There was an error!",
-              description: "Please try again later",
-              variant: "destructive",
-            });
+            toast.error("There was an error! Please try again later.");
           }
         },
         onSettled: () => {
