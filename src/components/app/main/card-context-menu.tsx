@@ -12,6 +12,7 @@ import { Bookmark } from "@/lib/types";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
+import { useUpdateBookmark } from "@/lib/mutations";
 
 import { Trash, ClipboardCopy, FilePenLine } from "lucide-react";
 import { DotFilledIcon } from "@radix-ui/react-icons";
@@ -24,6 +25,13 @@ interface Props {
 
 const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupQueries.all());
+  const update = useUpdateBookmark();
+
+  const handleChangeGroup = (newGroupId: Bookmark["groupId"]) => {
+    console.log(newGroupId);
+
+    update.mutate({ bookmark, newGroupId });
+  };
 
   return (
     <ContextMenu>
@@ -40,7 +48,10 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="relative mx-1 px-6">
             {bookmarkGroups.map((group) => (
-              <ContextMenuItem key={group.id}>
+              <ContextMenuItem
+                onSelect={() => handleChangeGroup(group.id)}
+                key={group.id}
+              >
                 {bookmark.groupId === group.id && (
                   <DotFilledIcon className="absolute -left-4 size-4" />
                 )}

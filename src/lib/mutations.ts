@@ -240,3 +240,34 @@ export const useDeleteBookmark = () => {
     },
   });
 };
+
+export const useUpdateBookmark = () => {
+  interface Data {
+    bookmark: Bookmark;
+    newGroupId: Bookmark["groupId"];
+  }
+  return useMutation({
+    mutationFn: async (data: Data) => {
+      const { bookmark, newGroupId } = data;
+      const res = await fetch(`http://localhost:8080/bookmark/${bookmark.id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${await getSessionToken()}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ newGroupId }),
+      });
+
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(`${res.status}`);
+      }
+
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+};
