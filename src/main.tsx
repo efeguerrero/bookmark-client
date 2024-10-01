@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { Router } from "./router";
 import { ReactQueryProvider } from "@/queryClientProvider";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Toaster2 } from "@/components/ui/sonner";
+
+import { Toaster } from "@/components/ui/sonner";
 
 // Import Clerk publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -22,8 +22,7 @@ if (!rootElement.innerHTML) {
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
       <ReactQueryProvider>
         <Router />
-        <Toaster2 duration={3000} />
-        <Toaster />
+        <Toaster duration={3000} />
       </ReactQueryProvider>
     </ClerkProvider>,
     // </StrictMode>,

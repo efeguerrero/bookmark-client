@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import * as Icons from "@/components/ui/icons";
 import { useUpdateBookmarkGroup } from "@/lib/mutations";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useParams, useNavigate } from "@tanstack/react-router";
 import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 
@@ -30,7 +30,6 @@ const EditGroupDialog = ({
   setShowEditGroupDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const updateBookmarkGroup = useUpdateBookmarkGroup();
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const groupSlug = useParams({ strict: false }).groupSlug || null;
@@ -77,19 +76,16 @@ const EditGroupDialog = ({
         { ...values, id: activeBookmarkGroup.id },
         {
           onError: () => {
-            toast({
-              description:
-                "There was an error updating this bookmark group. Please try again later.",
-            });
+            toast.error(
+              "There was an error updating this bookmark group. Please try again later.",
+            );
           },
           onSuccess: (data) => {
             navigate({
               to: "/app/$groupSlug",
               params: { groupSlug: data.slug },
             });
-            toast({
-              description: "Bookmark group updated!",
-            });
+            toast.success("Bookmark group updated!");
           },
           onSettled: () => {
             setShowEditGroupDialog(false);

@@ -17,7 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import * as Icons from "@/components/ui/icons";
 import { useNewBookmarkGroup } from "@/lib/mutations";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+
 import { useNavigate } from "@tanstack/react-router";
 
 const NewGroupDialog = ({
@@ -37,7 +38,7 @@ const NewGroupDialog = ({
   });
 
   const navigate = useNavigate();
-  const { toast } = useToast();
+
   const createBookmarkGroup = useNewBookmarkGroup();
 
   React.useEffect(() => {
@@ -52,10 +53,9 @@ const NewGroupDialog = ({
   async function onSubmit(values: z.infer<typeof newBookmarkGroup>) {
     createBookmarkGroup.mutate(values, {
       onError: () => {
-        toast({
-          description:
-            "There was an error creating this group. Please try again later.",
-        });
+        toast.error(
+          "There was an error creating this group. Please try again later.",
+        );
       },
       onSuccess: (data) => {
         navigate({ to: "/app/$groupSlug", params: { groupSlug: data.slug } });

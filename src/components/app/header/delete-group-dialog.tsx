@@ -13,7 +13,7 @@ import { useDeleteBookmarkGroup } from "@/lib/mutations";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { bookmarkGroupQueries } from "@/lib/queries/queryOptions";
 import { useParams, useNavigate } from "@tanstack/react-router";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import * as Icons from "@/components/ui/icons";
 
 interface Props {
@@ -30,7 +30,6 @@ const DeleteGroupDialog = ({
     bookmarkGroupQueries.findBySlug(groupSlug),
   );
 
-  const { toast } = useToast();
   const navigate = useNavigate();
   const deleteBookmarkGroup = useDeleteBookmarkGroup();
 
@@ -38,18 +37,13 @@ const DeleteGroupDialog = ({
     if (activeBookmarkGroup) {
       deleteBookmarkGroup.mutate(activeBookmarkGroup.id, {
         onError: () => {
-          toast({
-            description:
-              "There was an error deleting this group. Please try again later.",
-          });
+          toast.error(
+            "There was an error deleting this group. Please try again later.",
+          );
         },
         onSuccess: () => {
-          console.log("navigating");
-
           navigate({ to: "/app", replace: true });
-          toast({
-            description: "Group deleted",
-          });
+          toast.success("Group deleted");
         },
         onSettled: () => {
           setShowDeleteGroupDialog(false);
