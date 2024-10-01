@@ -31,7 +31,14 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
     if (newGroupId !== bookmark.groupId) {
       console.log("updating group");
 
-      update.mutate({ bookmark, newGroupId });
+      update.mutate(
+        { bookmark, newGroupId },
+        {
+          onError: () => {
+            console.log("error updating bookmark group");
+          },
+        },
+      );
     }
   };
 

@@ -1,5 +1,4 @@
-1. Move the delete button and change group to a right click contextual menu?
-3. We must be able to change groups for a bookmark? check bkms.com with right click.
-4. Will we allow custom naming for bookmarks?
-6. Toasts sometimes don't leave the screen
+2. Error handling for deleting and updating bookmarks?
+6. Toasts sometimes don't leave the screen + Review all toast messages
 2. Creating a bookmark has too much delay because of network calls. We need to give the user feedback sooner.
+4. Add disclaimer

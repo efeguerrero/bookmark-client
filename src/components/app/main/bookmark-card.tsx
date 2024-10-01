@@ -20,23 +20,25 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
 
   return (
     <CardContextMenu handleDelete={handleDelete} bookmark={bookmark}>
-      <Card.Root
-        className={cn(
-          "hover:bg-muted-foreground/[7%]",
-          deleteBookmark.isPending && "opacity-50",
-        )}
-      >
-        <Card.Body>
-          <Card.Icon imageURL={bookmark.faviconURL} />
-          <Card.Content>
-            <Card.Title>{bookmark.title}</Card.Title>
-            <Card.Description>{bookmark.description}</Card.Description>
-            <Card.Footer>
-              <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
-            </Card.Footer>
-          </Card.Content>
-        </Card.Body>
-      </Card.Root>
+      <Card.Link href={bookmark.url} className="contents">
+        <Card.Root
+          className={cn(
+            "hover:bg-muted-foreground/[7%]",
+            deleteBookmark.isPending && "opacity-50",
+          )}
+        >
+          <Card.Body>
+            <Card.Icon imageURL={bookmark.faviconURL} />
+            <Card.Content>
+              <Card.Title>{bookmark.title}</Card.Title>
+              <Card.Description>{bookmark.description}</Card.Description>
+              <Card.Footer>
+                <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
+              </Card.Footer>
+            </Card.Content>
+          </Card.Body>
+        </Card.Root>
+      </Card.Link>
     </CardContextMenu>
   );
 }

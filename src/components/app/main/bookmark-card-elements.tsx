@@ -67,19 +67,22 @@ export const Footer = ({ children }: { children: ReactNode }) => {
   return <div className="flex items-center justify-between">{children}</div>;
 };
 
-export const Link = ({
-  children,
-  href,
-}: {
+type LinkProps = React.HTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
   href: string;
-}) => {
+};
+
+export const Link = ({ children, className, href, ...props }: LinkProps) => {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="max-w-[calc(100%-4rem)] truncate text-sm text-primary hover:underline"
+      className={cn(
+        "max-w-[calc(100%-4rem)] truncate text-sm text-primary hover:underline",
+        className,
+      )}
+      {...props}
     >
       {children}
     </a>
