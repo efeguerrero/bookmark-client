@@ -1,5 +1,5 @@
-2. Error handling for deleting and updating bookmarks?
-6. Toasts sometimes don't leave the screen + Review all toast messages
+2. Review that all mutations have their corresponding toasts
 2. Creating a bookmark has too much delay because of network calls. We need to give the user feedback sooner.
+3. Check responsive design. Specially for the context menu
 4. Add disclaimer
 5. remove unused dependencies

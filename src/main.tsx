@@ -22,7 +22,7 @@ if (!rootElement.innerHTML) {
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
       <ReactQueryProvider>
         <Router />
-        <Toaster duration={3000} />
+        <Toaster />
       </ReactQueryProvider>
     </ClerkProvider>,
     // </StrictMode>,
