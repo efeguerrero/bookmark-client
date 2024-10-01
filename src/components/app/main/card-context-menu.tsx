@@ -28,8 +28,6 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   const update = useUpdateBookmark();
 
   const handleChangeGroup = (newGroupId: Bookmark["groupId"]) => {
-    console.log(newGroupId);
-
     update.mutate({ bookmark, newGroupId });
   };
 
@@ -58,6 +56,10 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
                 {group.name}
               </ContextMenuItem>
             ))}
+            <ContextMenuSeparator />
+            <ContextMenuItem onSelect={() => handleChangeGroup(null)}>
+              No Group
+            </ContextMenuItem>
           </ContextMenuSubContent>
         </ContextMenuSub>
         <ContextMenuSeparator />
