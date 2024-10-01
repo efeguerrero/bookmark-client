@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 import { ReactNode } from "@tanstack/react-router";
 
@@ -90,20 +90,20 @@ export const Date = ({ children }: { children: ReactNode }) => {
   return <span className="text-xs text-muted-foreground">{children}</span>;
 };
 
-type DeleteProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  children: ReactNode;
-};
+// type DeleteProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+//   children: ReactNode;
+// };
 
-export const Action = ({ children, className, ...props }: DeleteProps) => {
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className={cn("absolute right-2 top-2 h-8 w-8", className)}
-      aria-label="Delete bookmark"
-      {...props}
-    >
-      {children}
-    </Button>
-  );
-};
+// export const Action = ({ children, className, ...props }: DeleteProps) => {
+//   return (
+//     <Button
+//       variant="ghost"
+//       size="icon"
+//       className={cn("absolute right-2 top-2 h-8 w-8", className)}
+//       aria-label="Delete bookmark"
+//       {...props}
+//     >
+//       {children}
+//     </Button>
+//   );
+// };

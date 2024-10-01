@@ -1,6 +1,5 @@
+1. Move the delete button and change group to a right click contextual menu?
 3. We must be able to change groups for a bookmark? check bkms.com with right click.
 4. Will we allow custom naming for bookmarks?
 6. Toasts sometimes don't leave the screen
-5. Trashcan button bg red with {cn}
 2. Creating a bookmark has too much delay because of network calls. We need to give the user feedback sooner.
-8. We are NEVER setting our queries as stale so we will never refetch in the background. Maybe set something like 3 minutes?
