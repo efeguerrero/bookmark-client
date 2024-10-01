@@ -42,11 +42,19 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
     }
   };
 
+  const copyToClipboard = async (url: Bookmark["url"]) => {
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      console.log("Error copying to clipboard");
+    }
+  };
+
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem>
+        <ContextMenuItem onSelect={() => copyToClipboard(bookmark.url)}>
           <ClipboardCopy className="mr-2 size-4" />
           Copy
         </ContextMenuItem>
