@@ -28,7 +28,11 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   const update = useUpdateBookmark();
 
   const handleChangeGroup = (newGroupId: Bookmark["groupId"]) => {
-    update.mutate({ bookmark, newGroupId });
+    if (newGroupId !== bookmark.groupId) {
+      console.log("updating group");
+
+      update.mutate({ bookmark, newGroupId });
+    }
   };
 
   return (
@@ -44,20 +48,27 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
             <FilePenLine className="mr-2 size-4" />
             Change Group
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className="relative mx-1 px-6">
+          <ContextMenuSubContent className="relative mx-1">
             {bookmarkGroups.map((group) => (
               <ContextMenuItem
                 onSelect={() => handleChangeGroup(group.id)}
                 key={group.id}
+                className="px-6"
               >
                 {bookmark.groupId === group.id && (
-                  <DotFilledIcon className="absolute -left-4 size-4" />
+                  <DotFilledIcon className="absolute left-1 size-4" />
                 )}
                 {group.name}
               </ContextMenuItem>
             ))}
             <ContextMenuSeparator />
-            <ContextMenuItem onSelect={() => handleChangeGroup(null)}>
+            <ContextMenuItem
+              className="px-6"
+              onSelect={() => handleChangeGroup(null)}
+            >
+              {bookmark.groupId === null && (
+                <DotFilledIcon className="absolute left-1 size-4" />
+              )}
               No Group
             </ContextMenuItem>
           </ContextMenuSubContent>
