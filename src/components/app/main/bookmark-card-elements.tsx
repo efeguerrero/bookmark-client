@@ -78,14 +78,19 @@ export const Link = ({ children, className, href, ...props }: LinkProps) => {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(
-        "max-w-[calc(100%-4rem)] truncate text-sm text-primary hover:underline",
-        className,
-      )}
+      className={cn(className)}
       {...props}
     >
       {children}
     </a>
+  );
+};
+
+export const Url = ({ children }: { children: ReactNode }) => {
+  return (
+    <p className="max-w-[calc(100%-4rem)] truncate text-sm text-primary">
+      {children}
+    </p>
   );
 };
 

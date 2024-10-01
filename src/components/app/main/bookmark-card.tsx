@@ -4,6 +4,7 @@ import * as Card from "./bookmark-card-elements";
 import { Bookmark } from "@/lib/types";
 // import { X, Trash2 } from "lucide-react";
 import CardContextMenu from "./card-context-menu";
+import { toast } from "sonner";
 
 export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
   const deleteBookmark = useDeleteBookmark();
@@ -13,7 +14,10 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
 
     deleteBookmark.mutate(id, {
       onError: () => {
-        console.log("error deleting bookmark");
+        toast.error("Error deleting bookmark");
+      },
+      onSuccess: () => {
+        toast.success("Bookmark Deleted");
       },
     });
   };
@@ -33,7 +37,7 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
               <Card.Title>{bookmark.title}</Card.Title>
               <Card.Description>{bookmark.description}</Card.Description>
               <Card.Footer>
-                <Card.Link href={bookmark.url}>{bookmark.url}</Card.Link>
+                <Card.Url>{bookmark.url}</Card.Url>
               </Card.Footer>
             </Card.Content>
           </Card.Body>

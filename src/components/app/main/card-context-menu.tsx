@@ -17,6 +17,8 @@ import { useUpdateBookmark } from "@/lib/mutations";
 import { Trash, ClipboardCopy, FilePenLine } from "lucide-react";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
+import { toast } from "sonner";
+
 interface Props {
   children: React.ReactNode;
   handleDelete: (id: Bookmark["id"]) => void;
@@ -45,6 +47,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   const copyToClipboard = async (url: Bookmark["url"]) => {
     try {
       await navigator.clipboard.writeText(url);
+      toast.success("Copied to clipboard");
     } catch {
       console.log("Error copying to clipboard");
     }
