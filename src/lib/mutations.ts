@@ -201,7 +201,6 @@ export const useNewBookmark = () => {
 
           return newData;
         }
-
         return [data];
       });
     },
@@ -250,7 +249,7 @@ export const useUpdateBookmark = () => {
     newGroupId: Bookmark["groupId"];
   }
   return useMutation({
-    mutationFn: async (data: Data) => {
+    mutationFn: async (data: Data): Promise<Bookmark> => {
       const { bookmark, newGroupId } = data;
       const res = await fetch(`http://localhost:8080/bookmark/${bookmark.id}`, {
         method: "PATCH",
@@ -261,16 +260,37 @@ export const useUpdateBookmark = () => {
         body: JSON.stringify({ newGroupId }),
       });
 
-      const response = await res.json();
-
       if (!res.ok) {
         throw new Error(`${res.status}`);
       }
 
+      const response = await res.json();
+      // console.log(response);
+
       return response;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSuccess: (data) => {
+      queryClient.setQueryData(bookmarkQueries.all().queryKey, (oldData) => {
+        console.log("oldData", oldData);
+
+        if (oldData) {
+          const newData = oldData.map((item) => {
+            if (data.id === item.id) {
+              return {
+                ...item,
+                groupId: data.groupId,
+              };
+            }
+            return item;
+          });
+
+          console.log("newData", newData);
+
+          return newData;
+        }
+
+        return [data];
+      });
     },
   });
 };
