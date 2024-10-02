@@ -36,8 +36,12 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
       update.mutate(
         { bookmark, newGroupId },
         {
-          onError: () => {
-            console.log("error updating bookmark group");
+          onError: (error) => {
+            if (error.message === "404") {
+              toast.error("Bookmark or assigend goup don't exist.");
+            } else {
+              toast.error("Unable to update bookmark");
+            }
           },
         },
       );
