@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { useDeleteBookmark } from "@/lib/mutations";
 import * as Card from "./bookmark-card-elements";
 import { Bookmark } from "@/lib/types";
-// import { X, Trash2 } from "lucide-react";
 import CardContextMenu from "./card-context-menu";
 import { toast } from "sonner";
 
