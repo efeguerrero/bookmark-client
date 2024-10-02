@@ -70,7 +70,7 @@ export const useDeleteBookmarkGroup = () => {
       const response = await res.json();
 
       if (!res.ok) {
-        throw res.status;
+        throw new Error(`${res.status}`);
       }
 
       return response;

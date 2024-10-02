@@ -36,10 +36,14 @@ const DeleteGroupDialog = ({
   const handleDelete = () => {
     if (activeBookmarkGroup) {
       deleteBookmarkGroup.mutate(activeBookmarkGroup.id, {
-        onError: () => {
-          toast.error(
-            "There was an error deleting this group. Please try again later.",
-          );
+        onError: (error) => {
+          if (error.message === "404") {
+            toast.error("Group was not found");
+          } else {
+            toast.error(
+              "There was an error deleting this group. Please try again later.",
+            );
+          }
         },
         onSuccess: () => {
           navigate({ to: "/app", replace: true });
