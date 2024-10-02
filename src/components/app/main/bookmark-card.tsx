@@ -13,8 +13,12 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
     console.log(id);
 
     deleteBookmark.mutate(id, {
-      onError: () => {
-        toast.error("Error deleting bookmark");
+      onError: (error) => {
+        if (error.message === "404") {
+          toast.error("Bookmark was not found.");
+        } else {
+          toast.error("Error deleting bookmark.");
+        }
       },
       onSuccess: () => {
         toast.success("Bookmark Deleted");
