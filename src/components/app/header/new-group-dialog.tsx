@@ -52,10 +52,14 @@ const NewGroupDialog = ({
 
   async function onSubmit(values: z.infer<typeof newBookmarkGroup>) {
     createBookmarkGroup.mutate(values, {
-      onError: () => {
-        toast.error(
-          "There was an error creating this group. Please try again later.",
-        );
+      onError: (error) => {
+        if (error.message === "409") {
+          toast.error("A bookmark group with this slug already exists.");
+        } else {
+          toast.error(
+            "There was an error creating this group. Please try again later.",
+          );
+        }
       },
       onSuccess: (data) => {
         navigate({ to: "/app/$groupSlug", params: { groupSlug: data.slug } });
