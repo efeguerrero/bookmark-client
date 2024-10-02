@@ -75,10 +75,14 @@ const EditGroupDialog = ({
       updateBookmarkGroup.mutate(
         { ...values, id: activeBookmarkGroup.id },
         {
-          onError: () => {
-            toast.error(
-              "There was an error updating this bookmark group. Please try again later.",
-            );
+          onError: (error) => {
+            if (error.message === "404") {
+              toast.error("Group was not found.");
+            } else {
+              toast.error(
+                "There was an error updating this bookmark group. Please try again later.",
+              );
+            }
           },
           onSuccess: (data) => {
             navigate({
