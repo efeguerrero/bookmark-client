@@ -31,7 +31,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
 
   const handleChangeGroup = (newGroupId: Bookmark["groupId"]) => {
     if (newGroupId !== bookmark.groupId) {
-      console.log("updating group");
+      // console.log("updating group");
 
       update.mutate(
         { bookmark, newGroupId },
@@ -47,9 +47,9 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   const copyToClipboard = async (url: Bookmark["url"]) => {
     try {
       await navigator.clipboard.writeText(url);
-      toast.success("Copied to clipboard");
+      toast.success("Copied to clipboard.");
     } catch {
-      console.log("Error copying to clipboard");
+      toast.error("Unable to copy to clipboard.");
     }
   };
 
