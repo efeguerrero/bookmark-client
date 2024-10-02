@@ -271,8 +271,6 @@ export const useUpdateBookmark = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(bookmarkQueries.all().queryKey, (oldData) => {
-        console.log("oldData", oldData);
-
         if (oldData) {
           const newData = oldData.map((item) => {
             if (data.id === item.id) {
@@ -283,8 +281,6 @@ export const useUpdateBookmark = () => {
             }
             return item;
           });
-
-          console.log("newData", newData);
 
           return newData;
         }
