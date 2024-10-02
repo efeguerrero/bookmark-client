@@ -39,13 +39,15 @@ const BookmarkInput = ({ inputValue, setInputValue }: Props) => {
       };
 
       newBookmark.mutate(values, {
-        onError: (error) => {
+        onError: (error: Error) => {
           if (error.message === "409") {
             toast.error("Bookmark already exists.");
           }
 
           if (error.message === "400") {
-            toast.error("Invalid URL or we couldn't scan this website");
+            toast.error(
+              "We were unable to process the information from this website.",
+            );
           }
 
           if (error.message !== "409" && error.message !== "400") {

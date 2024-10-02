@@ -174,6 +174,9 @@ export const useNewBookmark = () => {
       });
 
       if (!res.ok) {
+        const response = await res.json();
+        console.log(response);
+
         throw new Error(`${res.status}`);
       }
 
