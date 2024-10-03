@@ -55,7 +55,7 @@ export default function GroupsMenu({ className }: { className?: string }) {
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[200px]">
+        <DropdownMenuContent className="xs:w-[250px] w-[200px]" align="end">
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link to="/app">
               <Check
