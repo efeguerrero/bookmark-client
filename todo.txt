@@ -1,4 +1,3 @@
-2. Review that all mutations have their corresponding toasts
 2. Creating a bookmark has too much delay because of network calls. We need to give the user feedback sooner.
 3. Check responsive design. Specially for the context menu
 4. Disabled group menu when creating new bookmark to avoid switching?

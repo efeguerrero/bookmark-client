@@ -163,6 +163,7 @@ export const useUpdateBookmarkGroup = () => {
 export const useNewBookmark = () => {
   type InputType = Pick<Bookmark, "url" | "groupId">;
   return useMutation({
+    mutationKey: ["newBookmark"],
     mutationFn: async (input: InputType): Promise<Bookmark> => {
       const res = await fetch("http://localhost:8080/bookmark", {
         method: "POST",

@@ -4,9 +4,10 @@ import {
   bookmarkQueries,
   bookmarkGroupQueries,
 } from "@/lib/queries/queryOptions";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery, useMutationState } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import BookmarkCard from "./bookmark-card";
+import BookmarkCardSkeleton from "./bookmark-card-skeleton";
 
 export default function BookmarkManager() {
   const [inputValue, setInputValue] = React.useState("");
@@ -14,6 +15,10 @@ export default function BookmarkManager() {
   const { data: activeBookmarkGroup } = useSuspenseQuery(
     bookmarkGroupQueries.findBySlug(groupSlug),
   );
+
+  const newBookmarkMutation = useMutationState({
+    filters: { mutationKey: ["newBookmark"], status: "pending" },
+  });
 
   const { data: bookmarks } = useSuspenseQuery(
     bookmarkQueries.filteredByGroup(activeBookmarkGroup?.id),
@@ -30,6 +35,22 @@ export default function BookmarkManager() {
       url.includes(inputValue)
     );
   });
+
+  if (newBookmarkMutation.length) {
+    return (
+      <div className="space-y-6 p-4">
+        <div className="max-w-md">
+          <BookmarkInput
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
+        </div>
+        <div className="flex flex-wrap gap-4">
+          <BookmarkCardSkeleton />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 p-4">

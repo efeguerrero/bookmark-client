@@ -9,8 +9,6 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
   const deleteBookmark = useDeleteBookmark();
 
   const handleDelete = (id: Bookmark["id"]) => {
-    console.log(id);
-
     deleteBookmark.mutate(id, {
       onError: (error) => {
         if (error.message === "404") {
