@@ -70,7 +70,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
             <FilePenLine className="mr-2 size-4" />
             Change Group
           </ContextMenuSubTrigger>
-          <ContextMenuSubContent className="relative mx-1">
+          <ContextMenuSubContent className="relative mx-1 max-w-[250px]">
             {bookmarkGroups.map((group) => (
               <ContextMenuItem
                 onSelect={() => handleChangeGroup(group.id)}
@@ -80,7 +80,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
                 {bookmark.groupId === group.id && (
                   <DotFilledIcon className="absolute left-1 size-4" />
                 )}
-                {group.name}
+                <span className="truncate">{group.name}</span>
               </ContextMenuItem>
             ))}
             <ContextMenuSeparator />
