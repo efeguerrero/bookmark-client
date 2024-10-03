@@ -46,12 +46,12 @@ export default function GroupsMenu({ className }: { className?: string }) {
             variant="outline"
             className={cn("justify-between", className)}
           >
-            <p className="truncate">
+            <span className="truncate">
               {groupSlug
                 ? bookmarkGroups.find((bookmark) => bookmark.slug === groupSlug)
                     ?.name
                 : "All Groups"}
-            </p>
+            </span>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </DropdownMenuTrigger>
@@ -82,11 +82,11 @@ export default function GroupsMenu({ className }: { className?: string }) {
                 >
                   <Check
                     className={cn(
-                      "mr-2 h-4 w-4",
+                      "mr-2 h-4 w-4 shrink-0",
                       groupSlug === bookmark.slug ? "opacity-100" : "opacity-0",
                     )}
                   />
-                  {bookmark.name}
+                  <span className="truncate">{bookmark.name}</span>
                 </Link>
               </DropdownMenuItem>
             ))
