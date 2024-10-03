@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useParams, Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery, useMutationState } from "@tanstack/react-query";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,10 +31,17 @@ export default function GroupsMenu() {
   const params = useParams({ strict: false });
   const groupSlug = params.groupSlug || null;
 
+  const newBookmarkMutation = useMutationState({
+    filters: { mutationKey: ["newBookmark"], status: "pending" },
+  });
+
   return (
     <React.Fragment>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger
+          disabled={newBookmarkMutation.length ? true : false}
+          asChild
+        >
           <Button variant="outline" className="w-[200px] justify-between">
             {groupSlug
               ? bookmarkGroups.find((bookmark) => bookmark.slug === groupSlug)
