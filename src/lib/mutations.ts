@@ -175,15 +175,11 @@ export const useNewBookmark = () => {
       });
 
       if (!res.ok) {
-        const response = await res.json();
-        console.log(response);
-
         throw new Error(`${res.status}`);
       }
 
       const response = await res.json();
 
-      console.log("New bookmark response", response);
       return response;
     },
     onSuccess: (data) => {
