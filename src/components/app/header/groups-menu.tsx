@@ -22,7 +22,7 @@ import NewGroupDialog from "@/components/app/header/new-group-dialog";
 import DeleteGroupDialog from "@/components/app/header/delete-group-dialog";
 import EditGroupDialog from "@/components/app/header/update-group-dialog";
 
-export default function GroupsMenu() {
+export default function GroupsMenu({ className }: { className?: string }) {
   const [showNewGroupDialog, setShowNewGroupDialog] = React.useState(false);
   const [showDeleteGroupDialog, setShowDeleteGroupDialog] =
     React.useState(false);
@@ -42,7 +42,10 @@ export default function GroupsMenu() {
           disabled={newBookmarkMutation.length ? true : false}
           asChild
         >
-          <Button variant="outline" className="w-[200px] justify-between">
+          <Button
+            variant="outline"
+            className={cn("justify-between", className)}
+          >
             {groupSlug
               ? bookmarkGroups.find((bookmark) => bookmark.slug === groupSlug)
                   ?.name
