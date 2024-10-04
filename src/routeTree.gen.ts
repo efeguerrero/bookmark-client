@@ -145,21 +145,116 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  authRoute: authRoute.addChildren({
-    authLayoutRoute: authLayoutRoute.addChildren({
-      authLayoutLoginRoute,
-      authLayoutRegisterRoute,
-    }),
-  }),
-  AppRoute: AppRoute.addChildren({
-    AppLayoutRoute: AppLayoutRoute.addChildren({
-      AppLayoutGroupSlugRoute,
-      AppLayoutIndexRoute,
-    }),
-  }),
-})
+interface authLayoutRouteChildren {
+  authLayoutLoginRoute: typeof authLayoutLoginRoute
+  authLayoutRegisterRoute: typeof authLayoutRegisterRoute
+}
+
+const authLayoutRouteChildren: authLayoutRouteChildren = {
+  authLayoutLoginRoute: authLayoutLoginRoute,
+  authLayoutRegisterRoute: authLayoutRegisterRoute,
+}
+
+const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
+  authLayoutRouteChildren,
+)
+
+interface authRouteChildren {
+  authLayoutRoute: typeof authLayoutRouteWithChildren
+}
+
+const authRouteChildren: authRouteChildren = {
+  authLayoutRoute: authLayoutRouteWithChildren,
+}
+
+const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
+
+interface AppLayoutRouteChildren {
+  AppLayoutGroupSlugRoute: typeof AppLayoutGroupSlugRoute
+  AppLayoutIndexRoute: typeof AppLayoutIndexRoute
+}
+
+const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppLayoutGroupSlugRoute: AppLayoutGroupSlugRoute,
+  AppLayoutIndexRoute: AppLayoutIndexRoute,
+}
+
+const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
+  AppLayoutRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppLayoutRoute: typeof AppLayoutRouteWithChildren
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppLayoutRoute: AppLayoutRouteWithChildren,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+export interface FileRoutesByFullPath {
+  '/': typeof authLayoutRouteWithChildren
+  '/app': typeof AppLayoutRouteWithChildren
+  '/login': typeof authLayoutLoginRoute
+  '/register': typeof authLayoutRegisterRoute
+  '/app/$groupSlug': typeof AppLayoutGroupSlugRoute
+  '/app/': typeof AppLayoutIndexRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof authLayoutRouteWithChildren
+  '/app': typeof AppLayoutIndexRoute
+  '/login': typeof authLayoutLoginRoute
+  '/register': typeof authLayoutRegisterRoute
+  '/app/$groupSlug': typeof AppLayoutGroupSlugRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof authRouteWithChildren
+  '/_layout': typeof authLayoutRouteWithChildren
+  '/app': typeof AppRouteWithChildren
+  '/app/_layout': typeof AppLayoutRouteWithChildren
+  '/_layout/login': typeof authLayoutLoginRoute
+  '/_layout/register': typeof authLayoutRegisterRoute
+  '/app/_layout/$groupSlug': typeof AppLayoutGroupSlugRoute
+  '/app/_layout/': typeof AppLayoutIndexRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/app' | '/login' | '/register' | '/app/$groupSlug' | '/app/'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/app' | '/login' | '/register' | '/app/$groupSlug'
+  id:
+    | '__root__'
+    | '/'
+    | '/_layout'
+    | '/app'
+    | '/app/_layout'
+    | '/_layout/login'
+    | '/_layout/register'
+    | '/app/_layout/$groupSlug'
+    | '/app/_layout/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  authRoute: typeof authRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  authRoute: authRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
