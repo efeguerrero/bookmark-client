@@ -1,4 +1,4 @@
-import { HelpCircle, LogOut } from "lucide-react";
+import { HelpCircle, LogOut, Home } from "lucide-react";
 import { getRouteApi } from "@tanstack/react-router";
 import { useAuth } from "@clerk/clerk-react";
 import { Link } from "@tanstack/react-router";
@@ -36,6 +36,12 @@ const UserInfo = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuItem asChild className="hover:cursor-pointer">
+          <Link to="/app">
+            <Home className="mr-2 h-4 w-4" />
+            <span>Home</span>
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem asChild className="hover:cursor-pointer">
           <Link to="/app/disclaimer">
             <HelpCircle className="mr-2 h-4 w-4" />
