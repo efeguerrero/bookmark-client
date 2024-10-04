@@ -38,15 +38,17 @@ export default function BookmarkManager() {
 
   if (newBookmarkMutation.length) {
     return (
-      <div className="space-y-6 p-4">
-        <div className="max-w-md">
-          <BookmarkInput
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-          />
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <BookmarkCardSkeleton />
+      <div className="pt-[--nav-height]">
+        <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
+          <div className="max-w-md">
+            <BookmarkInput
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+            />
+          </div>
+          <div className="flex flex-wrap gap-4">
+            <BookmarkCardSkeleton />
+          </div>
         </div>
       </div>
     );
