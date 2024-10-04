@@ -13,6 +13,19 @@
   font-style: normal;
 }
 
+* {
+  min-width: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+p {
+  text-wrap: pretty;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

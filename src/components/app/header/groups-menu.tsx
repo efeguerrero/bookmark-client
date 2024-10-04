@@ -44,7 +44,7 @@ export default function GroupsMenu({ className }: { className?: string }) {
         >
           <Button
             variant="outline"
-            className={cn("justify-between", className)}
+            className={cn("justify-between overflow-clip", className)}
           >
             <span className="truncate">
               {groupSlug
