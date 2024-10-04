@@ -10,10 +10,14 @@ import {
   ContextMenuSubContent,
 } from "@/components/ui/context-menu";
 
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+import { cn } from "@/lib/utils";
+
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -37,13 +41,12 @@ interface Props {
 }
 
 const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
+  const [showChangeGroup, setShowChangeGroup] = React.useState(false);
   const { data: bookmarkGroups } = useSuspenseQuery(bookmarkGroupQueries.all());
   const update = useUpdateBookmark();
 
   const handleChangeGroup = (newGroupId: Bookmark["groupId"]) => {
     if (newGroupId !== bookmark.groupId) {
-      // console.log("updating group");
-
       update.mutate(
         { bookmark, newGroupId },
         {
@@ -53,6 +56,9 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
             } else {
               toast.error("Unable to update bookmark");
             }
+          },
+          onSettled: () => {
+            setShowChangeGroup(false);
           },
         },
       );
@@ -69,7 +75,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={showChangeGroup} onOpenChange={setShowChangeGroup}>
       <ContextMenu>
         <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
         <ContextMenuContent>
@@ -121,14 +127,53 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
         </ContextMenuContent>
       </ContextMenu>
       {/* Change Group Dialog */}
-      <DialogContent>
+      <DialogContent aria-describedby={undefined} className="max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle>Select a new group</DialogTitle>
         </DialogHeader>
+        <ScrollArea className="max-h-[300px] w-full pr-4">
+          <div className="space-y-1">
+            <Button
+              variant="ghost"
+              onClick={() => handleChangeGroup(null)}
+              className="w-full justify-between rounded-none hover:bg-transparent hover:text-muted-foreground focus-visible:ring-0"
+            >
+              <span
+                className={cn(
+                  "truncate",
+                  bookmark.groupId === null && "text-primary",
+                )}
+              >
+                No Group
+              </span>
+            </Button>
+            {bookmarkGroups.length && (
+              <div className="h-px bg-border" aria-hidden="true" />
+            )}
+            {bookmarkGroups.map((group, index) => (
+              <React.Fragment key={group.id}>
+                <Button
+                  disabled={update.isPending}
+                  variant="ghost"
+                  onClick={() => handleChangeGroup(group.id)}
+                  className="w-full justify-between rounded-none hover:bg-transparent hover:text-foreground focus-visible:ring-0"
+                >
+                  <span
+                    className={cn(
+                      "truncate",
+                      bookmark.groupId === group.id && "text-primary",
+                    )}
+                  >
+                    {group.name}
+                  </span>
+                </Button>
+                {index < bookmarkGroups.length - 1 && (
+                  <div className="h-px bg-border" aria-hidden="true" />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
