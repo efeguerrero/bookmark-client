@@ -13,19 +13,6 @@
   font-style: normal;
 }
 
-* {
-  min-width: 0px;
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100dvh;
-}
-
-p {
-  text-wrap: pretty;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -87,9 +74,20 @@ p {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply box-border min-w-0 border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply min-h-dvh bg-background text-foreground;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-balance;
+  }
+
+  p {
+    @apply text-pretty;
   }
 }
