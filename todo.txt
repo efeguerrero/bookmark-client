@@ -1,4 +1,4 @@
-3. Check responsive design. Specially for the context menu and top bar
+3. 
 4. Add disclaimer
 5. Add favicon, page titles,,description and og cards
 5. remove unused dependencies

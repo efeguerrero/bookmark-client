@@ -37,7 +37,7 @@ const UserInfo = () => {
       <DropdownMenuContent align="end">
         <DropdownMenuItem className="hover:cursor-pointer">
           <HelpCircle className="mr-2 h-4 w-4" />
-          <span>Help</span>
+          <span>Disclaimer</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
