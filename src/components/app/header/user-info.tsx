@@ -1,6 +1,7 @@
 import { HelpCircle, LogOut } from "lucide-react";
 import { getRouteApi } from "@tanstack/react-router";
 import { useAuth } from "@clerk/clerk-react";
+import { Link } from "@tanstack/react-router";
 
 import {
   DropdownMenu,
@@ -35,9 +36,11 @@ const UserInfo = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="hover:cursor-pointer">
-          <HelpCircle className="mr-2 h-4 w-4" />
-          <span>Disclaimer</span>
+        <DropdownMenuItem asChild className="hover:cursor-pointer">
+          <Link to="/app/disclaimer">
+            <HelpCircle className="mr-2 h-4 w-4" />
+            <span>Disclaimer</span>
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />

@@ -17,6 +17,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as AppLayoutImport } from './routes/app/_layout'
 import { Route as authLayoutImport } from './routes/(auth)/_layout'
 import { Route as AppLayoutIndexImport } from './routes/app/_layout.index'
+import { Route as AppLayoutDisclaimerImport } from './routes/app/_layout.disclaimer'
 import { Route as AppLayoutGroupSlugImport } from './routes/app/_layout.$groupSlug'
 import { Route as authLayoutRegisterImport } from './routes/(auth)/_layout.register'
 import { Route as authLayoutLoginImport } from './routes/(auth)/_layout.login'
@@ -55,6 +56,11 @@ const authLayoutRoute = authLayoutImport.update({
 
 const AppLayoutIndexRoute = AppLayoutIndexImport.update({
   path: '/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutDisclaimerRoute = AppLayoutDisclaimerImport.update({
+  path: '/disclaimer',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
@@ -133,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutGroupSlugImport
       parentRoute: typeof AppLayoutImport
     }
+    '/app/_layout/disclaimer': {
+      id: '/app/_layout/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/app/disclaimer'
+      preLoaderRoute: typeof AppLayoutDisclaimerImport
+      parentRoute: typeof AppLayoutImport
+    }
     '/app/_layout/': {
       id: '/app/_layout/'
       path: '/'
@@ -171,11 +184,13 @@ const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
 
 interface AppLayoutRouteChildren {
   AppLayoutGroupSlugRoute: typeof AppLayoutGroupSlugRoute
+  AppLayoutDisclaimerRoute: typeof AppLayoutDisclaimerRoute
   AppLayoutIndexRoute: typeof AppLayoutIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppLayoutGroupSlugRoute: AppLayoutGroupSlugRoute,
+  AppLayoutDisclaimerRoute: AppLayoutDisclaimerRoute,
   AppLayoutIndexRoute: AppLayoutIndexRoute,
 }
 
@@ -199,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof authLayoutLoginRoute
   '/register': typeof authLayoutRegisterRoute
   '/app/$groupSlug': typeof AppLayoutGroupSlugRoute
+  '/app/disclaimer': typeof AppLayoutDisclaimerRoute
   '/app/': typeof AppLayoutIndexRoute
 }
 
@@ -208,6 +224,7 @@ export interface FileRoutesByTo {
   '/login': typeof authLayoutLoginRoute
   '/register': typeof authLayoutRegisterRoute
   '/app/$groupSlug': typeof AppLayoutGroupSlugRoute
+  '/app/disclaimer': typeof AppLayoutDisclaimerRoute
 }
 
 export interface FileRoutesById {
@@ -219,14 +236,28 @@ export interface FileRoutesById {
   '/_layout/login': typeof authLayoutLoginRoute
   '/_layout/register': typeof authLayoutRegisterRoute
   '/app/_layout/$groupSlug': typeof AppLayoutGroupSlugRoute
+  '/app/_layout/disclaimer': typeof AppLayoutDisclaimerRoute
   '/app/_layout/': typeof AppLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/login' | '/register' | '/app/$groupSlug' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/$groupSlug'
+    | '/app/disclaimer'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/login' | '/register' | '/app/$groupSlug'
+  to:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/$groupSlug'
+    | '/app/disclaimer'
   id:
     | '__root__'
     | '/'
@@ -236,6 +267,7 @@ export interface FileRouteTypes {
     | '/_layout/login'
     | '/_layout/register'
     | '/app/_layout/$groupSlug'
+    | '/app/_layout/disclaimer'
     | '/app/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -294,6 +326,7 @@ export const routeTree = rootRoute
       "parent": "/app",
       "children": [
         "/app/_layout/$groupSlug",
+        "/app/_layout/disclaimer",
         "/app/_layout/"
       ]
     },
@@ -307,6 +340,10 @@ export const routeTree = rootRoute
     },
     "/app/_layout/$groupSlug": {
       "filePath": "app/_layout.$groupSlug.tsx",
+      "parent": "/app/_layout"
+    },
+    "/app/_layout/disclaimer": {
+      "filePath": "app/_layout.disclaimer.tsx",
       "parent": "/app/_layout"
     },
     "/app/_layout/": {
