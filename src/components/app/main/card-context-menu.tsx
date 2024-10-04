@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -8,6 +9,15 @@ import {
   ContextMenuSubTrigger,
   ContextMenuSubContent,
 } from "@/components/ui/context-menu";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
 import { Bookmark } from "@/lib/types";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -18,6 +28,7 @@ import { Trash, ClipboardCopy, FilePenLine } from "lucide-react";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 
 import { toast } from "sonner";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 interface Props {
   children: React.ReactNode;
@@ -58,50 +69,68 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
   };
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem onSelect={() => copyToClipboard(bookmark.url)}>
-          <ClipboardCopy className="mr-2 size-4" />
-          Copy
-        </ContextMenuItem>
-        <ContextMenuSub>
-          <ContextMenuSubTrigger>
-            <FilePenLine className="mr-2 size-4" />
-            Change Group
-          </ContextMenuSubTrigger>
-          <ContextMenuSubContent className="relative mx-1 max-w-[250px]">
-            {bookmarkGroups.map((group) => (
+    <Dialog>
+      <ContextMenu>
+        <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem onSelect={() => copyToClipboard(bookmark.url)}>
+            <ClipboardCopy className="mr-2 size-4" />
+            Copy
+          </ContextMenuItem>
+          <DialogTrigger className="xs:hidden">
+            <ContextMenuItem>
+              <FilePenLine className="mr-2 size-4" />
+              Change Group
+            </ContextMenuItem>
+          </DialogTrigger>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger className="hidden xs:flex">
+              <FilePenLine className="mr-2 size-4" />
+              Change Group
+            </ContextMenuSubTrigger>
+            <ContextMenuSubContent className="relative mx-1 max-w-[250px]">
+              {bookmarkGroups.map((group) => (
+                <ContextMenuItem
+                  onSelect={() => handleChangeGroup(group.id)}
+                  key={group.id}
+                  className="px-6"
+                >
+                  {bookmark.groupId === group.id && (
+                    <DotFilledIcon className="absolute left-1 size-4" />
+                  )}
+                  <span className="truncate">{group.name}</span>
+                </ContextMenuItem>
+              ))}
+              <ContextMenuSeparator />
               <ContextMenuItem
-                onSelect={() => handleChangeGroup(group.id)}
-                key={group.id}
                 className="px-6"
+                onSelect={() => handleChangeGroup(null)}
               >
-                {bookmark.groupId === group.id && (
+                {bookmark.groupId === null && (
                   <DotFilledIcon className="absolute left-1 size-4" />
                 )}
-                <span className="truncate">{group.name}</span>
+                No Group
               </ContextMenuItem>
-            ))}
-            <ContextMenuSeparator />
-            <ContextMenuItem
-              className="px-6"
-              onSelect={() => handleChangeGroup(null)}
-            >
-              {bookmark.groupId === null && (
-                <DotFilledIcon className="absolute left-1 size-4" />
-              )}
-              No Group
-            </ContextMenuItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
-        <ContextMenuSeparator />
-        <ContextMenuItem onClick={() => handleDelete(bookmark.id)}>
-          <Trash className="mr-2 size-4" />
-          Delete
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+          <ContextMenuSeparator />
+          <ContextMenuItem onClick={() => handleDelete(bookmark.id)}>
+            <Trash className="mr-2 size-4" />
+            Delete
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+      {/* Change Group Dialog */}
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 };
 
