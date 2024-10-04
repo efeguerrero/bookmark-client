@@ -53,14 +53,43 @@ export default function BookmarkManager() {
   }
 
   return (
-    <div className="space-y-6 p-4">
-      <div className="max-w-md">
-        <BookmarkInput inputValue={inputValue} setInputValue={setInputValue} />
-      </div>
-      <div className="flex flex-wrap gap-4">
-        {filteredBookmarks.map((bookmark) => (
-          <BookmarkCard key={bookmark.id} bookmark={bookmark} />
-        ))}
+    <div className="pt-[--nav-height]">
+      <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
+        <div className="max-w-md">
+          <BookmarkInput
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
+        </div>
+        <div className="flex flex-wrap gap-4">
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+          {filteredBookmarks.map((bookmark) => (
+            <BookmarkCard key={bookmark.id} bookmark={bookmark} />
+          ))}
+        </div>
       </div>
     </div>
   );

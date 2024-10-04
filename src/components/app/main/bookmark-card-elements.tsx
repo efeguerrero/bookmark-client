@@ -12,7 +12,7 @@ export const Root = ({ children, className, ...props }: CardRoot) => {
     <Card
       {...props}
       className={cn(
-        "relative w-full overflow-hidden rounded-lg sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.75rem)] xl:w-[calc(25%-0.75rem)]",
+        "relative w-full overflow-hidden rounded-lg sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.75rem)]",
         className,
       )}
     >
@@ -88,7 +88,7 @@ export const Link = ({ children, className, href, ...props }: LinkProps) => {
 
 export const Url = ({ children }: { children: ReactNode }) => {
   return (
-    <p className="max-w-[calc(100%-4rem)] truncate text-sm text-primary">
+    <p className="max-w-[calc(100%-4rem)] truncate text-xs text-primary">
       {children}
     </p>
   );
