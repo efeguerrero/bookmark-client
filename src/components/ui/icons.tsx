@@ -65,12 +65,14 @@ export const logo = (props: IconProps) => (
       stroke-width="5.5"
       stroke-linecap="round"
     />
+
     <path
       d="M2.74896 71.0228C18.3094 61.3239 33.7476 51.2604 49.7649 42.3159C55.2969 39.2267 60.988 36.1918 67.1175 34.4831"
       stroke="currentColor"
       stroke-width="5.5"
       stroke-linecap="round"
     />
+
     <path
       d="M1.48685 83.403C22.9611 70.0363 44.2167 56.67 67.2376 46.1422"
       stroke="currentColor"
