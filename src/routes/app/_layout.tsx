@@ -42,7 +42,9 @@ function App() {
   return (
     <div className="min-h-screen">
       <Header />
-      <Outlet />
+      <div className="pt-[--nav-height]">
+        <Outlet />
+      </div>
     </div>
   );
 }
