@@ -41,7 +41,7 @@ export default function BookmarkManager() {
   if (filteredBookmarks.length === 0 && !newBookmarkMutation.length) {
     return (
       <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
-        <div className="max-w-md">
+        <div className="mb-12 lg:mb-16">
           <BookmarkInput
             inputValue={inputValue}
             setInputValue={setInputValue}
@@ -57,7 +57,7 @@ export default function BookmarkManager() {
   if (newBookmarkMutation.length) {
     return (
       <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
-        <div className="max-w-md">
+        <div className="mb-12 lg:mb-16">
           <BookmarkInput
             inputValue={inputValue}
             setInputValue={setInputValue}
@@ -72,7 +72,7 @@ export default function BookmarkManager() {
 
   return (
     <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
-      <div className="max-w-md">
+      <div className="mb-12 lg:mb-16">
         <BookmarkInput inputValue={inputValue} setInputValue={setInputValue} />
       </div>
       <div className="flex flex-wrap gap-4">

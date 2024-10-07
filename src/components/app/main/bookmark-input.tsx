@@ -70,7 +70,7 @@ const BookmarkInput = ({ inputValue, setInputValue }: Props) => {
         type="text"
         placeholder="Search for a bookmark or create a new one."
         disabled={newBookmark.isPending}
-        className="w-full rounded-lg"
+        className="h-10 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.75rem)]"
       />
       {formError && (
         <p className="mt-1 text-xs text-destructive">
