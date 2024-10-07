@@ -36,6 +36,24 @@ export default function BookmarkManager() {
     );
   });
 
+  console.log(filteredBookmarks);
+
+  if (filteredBookmarks.length === 0 && !newBookmarkMutation.length) {
+    return (
+      <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
+        <div className="max-w-md">
+          <BookmarkInput
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
+        </div>
+        <div className="flex flex-wrap gap-4">
+          <h3 className="text-sm text-muted-foreground">No bookmarks found.</h3>
+        </div>
+      </div>
+    );
+  }
+
   if (newBookmarkMutation.length) {
     return (
       <div className="mx-auto my-10 max-w-7xl space-y-6 p-4">
