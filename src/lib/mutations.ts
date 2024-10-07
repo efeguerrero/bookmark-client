@@ -9,12 +9,15 @@ import { newBookmarkGroup, bookmarkGroup } from "./schemas";
 import { getSessionToken } from "@/lib/sessionToken.ts";
 import { BookmarkGroup, Bookmark } from "./types";
 
+// API URL
+const url = import.meta.env.VITE_API_URL;
+
 export const useNewBookmarkGroup = () => {
   type Inputs = z.infer<typeof newBookmarkGroup>;
 
   return useMutation({
     mutationFn: async (data: Inputs): Promise<BookmarkGroup> => {
-      const res = await fetch("http://localhost:8080/bookmark-group", {
+      const res = await fetch(`${url}/bookmark-group`, {
         headers: {
           Authorization: `Bearer ${await getSessionToken()}`,
           "Content-Type": "application/json",
@@ -60,7 +63,7 @@ export const useDeleteBookmarkGroup = () => {
   type Input = z.infer<typeof bookmarkGroup.shape.id>;
   return useMutation({
     mutationFn: async (id: Input): Promise<void> => {
-      const res = await fetch(`http://localhost:8080/bookmark-group/${id}`, {
+      const res = await fetch(`${url}/bookmark-group/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${await getSessionToken()}`,
@@ -111,17 +114,14 @@ export const useDeleteBookmarkGroup = () => {
 export const useUpdateBookmarkGroup = () => {
   return useMutation({
     mutationFn: async (data: BookmarkGroup): Promise<BookmarkGroup> => {
-      const res = await fetch(
-        `http://localhost:8080/bookmark-group/${data.id}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify({ name: data.name, slug: data.slug }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${await getSessionToken()}`,
-          },
+      const res = await fetch(`${url}/bookmark-group/${data.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ name: data.name, slug: data.slug }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await getSessionToken()}`,
         },
-      );
+      });
       const response = await res.json();
 
       if (!res.ok) {
@@ -165,7 +165,7 @@ export const useNewBookmark = () => {
   return useMutation({
     mutationKey: ["newBookmark"],
     mutationFn: async (input: InputType): Promise<Bookmark> => {
-      const res = await fetch("http://localhost:8080/bookmark", {
+      const res = await fetch(`${url}/bookmark`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${await getSessionToken()}`,
@@ -210,7 +210,7 @@ export const useDeleteBookmark = () => {
 
   return useMutation({
     mutationFn: async (id: Id): Promise<Return> => {
-      const res = await fetch(`http://localhost:8080/bookmark/${id}`, {
+      const res = await fetch(`${url}/bookmark/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${await getSessionToken()}`,
@@ -248,7 +248,7 @@ export const useUpdateBookmark = () => {
   return useMutation({
     mutationFn: async (data: Data): Promise<Bookmark> => {
       const { bookmark, newGroupId } = data;
-      const res = await fetch(`http://localhost:8080/bookmark/${bookmark.id}`, {
+      const res = await fetch(`${url}/bookmark/${bookmark.id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${await getSessionToken()}`,

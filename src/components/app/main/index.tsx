@@ -36,7 +36,7 @@ export default function BookmarkManager() {
     );
   });
 
-  console.log(filteredBookmarks);
+  // console.log(filteredBookmarks);
 
   if (filteredBookmarks.length === 0 && !newBookmarkMutation.length) {
     return (

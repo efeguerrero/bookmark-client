@@ -1,2 +1,0 @@
-5. page titles,,description and og cards
-5. remove unused dependencies

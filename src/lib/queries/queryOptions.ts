@@ -2,14 +2,18 @@ import { queryOptions } from "@tanstack/react-query";
 import { getSessionToken } from "@/lib/sessionToken.ts";
 import { Bookmark, BookmarkGroup } from "@/lib/types.ts";
 
+// API URL
+const url = import.meta.env.VITE_API_URL;
+
 export const bookmarkGroupQueries = {
   all: () =>
     queryOptions({
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["bookmarkGroups"],
       retry: 2,
       retryDelay: 1000,
       queryFn: async (): Promise<BookmarkGroup[]> => {
-        const response = await fetch("http://localhost:8080/bookmark-group", {
+        const response = await fetch(`${url}/bookmark-group`, {
           headers: {
             Authorization: `Bearer ${await getSessionToken()}`,
           },
@@ -33,11 +37,12 @@ export const bookmarkGroupQueries = {
 export const bookmarkQueries = {
   all: () =>
     queryOptions({
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["bookmarks"],
       retry: 2,
       retryDelay: 1000,
       queryFn: async (): Promise<Bookmark[]> => {
-        const res = await fetch("http://localhost:8080/bookmark", {
+        const res = await fetch(`${url}/bookmark`, {
           headers: { Authorization: `Bearer ${await getSessionToken()}` },
         });
         const response = await res.json();
