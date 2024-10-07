@@ -74,6 +74,7 @@
   :root {
     --nav-height: 70px;
   }
+
   * {
     @apply box-border min-w-0 border-border;
   }
