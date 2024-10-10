@@ -26,7 +26,10 @@ export default function Home() {
 
         <div className="flex items-center justify-between">
           <div className="space-x-8 sm:space-x-10">
-            <Link to="/login" className="transition-colors hover:text-primary">
+            <Link
+              to="/login/$"
+              className="transition-colors hover:text-primary"
+            >
               Login
             </Link>
             <Link

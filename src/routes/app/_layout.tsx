@@ -10,7 +10,7 @@ export const Route = createFileRoute("/app/_layout")({
   beforeLoad: async ({ context, location }) => {
     if (!context.user) {
       throw redirect({
-        to: "/login",
+        to: "/login/$",
         search: {
           redirect: location.href,
         },
