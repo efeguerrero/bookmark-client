@@ -5,10 +5,10 @@ import { Separator } from "../ui/separator";
 export default function Home() {
   return (
     <div className="grid min-h-dvh place-items-center pb-16">
-      <main className="mx-auto max-w-lg space-y-8">
-        <div className="flex items-center space-x-4">
-          <Icon.logo className="size-14" />
-          <h1 className="text-6xl font-bold">Bookmarks</h1>
+      <main className="mx-auto max-w-lg space-y-8 px-4 sm:px-0">
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <Icon.logo className="size-12 sm:size-14" />
+          <h1 className="text-4xl font-bold sm:text-6xl">Bookmarks</h1>
         </div>
 
         <div className="space-y-4 text-muted-foreground">
@@ -25,7 +25,7 @@ export default function Home() {
         <Separator className="w-full" />
 
         <div className="flex items-center justify-between">
-          <div className="space-x-10">
+          <div className="space-x-8 sm:space-x-10">
             <Link to="/login" className="transition-colors hover:text-primary">
               Login
             </Link>
