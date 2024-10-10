@@ -8,7 +8,7 @@ const url = import.meta.env.VITE_API_URL;
 export const bookmarkGroupQueries = {
   all: () =>
     queryOptions({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps 
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["bookmarkGroups"],
       retry: 2,
       retryDelay: 1000,

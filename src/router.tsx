@@ -1,6 +1,7 @@
-import { RouterProvider, createRouter, Link } from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
 import { queryClient } from "./queryClient";
+import NotFound from "./components/not-found";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
@@ -15,16 +16,7 @@ declare module "@tanstack/react-router" {
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  defaultNotFoundComponent: () => {
-    return (
-      <div>
-        <p>Not found!</p>
-        <Link className="font-bold" to="/">
-          Go home
-        </Link>
-      </div>
-    );
-  },
+  defaultNotFoundComponent: NotFound,
   // No stale loader since using react query.
   defaultPreload: "intent",
   // No stale time for routes

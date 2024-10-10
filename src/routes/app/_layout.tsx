@@ -5,6 +5,7 @@ import {
   bookmarkQueries,
 } from "@/lib/queries/queryOptions";
 import * as Icons from "@/components/ui/icons";
+import ErrorComponent from "@/components/error";
 
 export const Route = createFileRoute("/app/_layout")({
   beforeLoad: async ({ context, location }) => {
@@ -27,17 +28,11 @@ export const Route = createFileRoute("/app/_layout")({
   pendingComponent: () => {
     return (
       <div className="grid h-dvh w-full place-items-center">
-        <Icons.spinner className="size-24 animate-spin text-primary" />
+        <Icons.spinner className="animate-s pin size-24 text-primary" />
       </div>
     );
   },
-  errorComponent: () => {
-    return (
-      <div>
-        Something went wrong! <br /> Please refresh the page.
-      </div>
-    );
-  },
+  errorComponent: ErrorComponent,
 });
 
 function App() {

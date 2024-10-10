@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import Home from "@/components/home";
+import ErrorComponent from "@/components/error";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async ({ context }) => {
@@ -9,5 +10,6 @@ export const Route = createFileRoute("/")({
       });
     }
   },
+  errorComponent: ErrorComponent,
   component: Home,
 });

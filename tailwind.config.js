@@ -7,6 +7,19 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        blur: {
+          "0%": { filter: "blur(4px)" },
+          "100%": { filter: "blur(0)" },
+        },
+      },
+      animation: {
+        "un-blur": "blur 0.4s ease-out",
+      },
       screens: {
         xs: "450px",
       },
