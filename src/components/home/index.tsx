@@ -30,7 +30,7 @@ export default function Home() {
               Login
             </Link>
             <Link
-              to="/register"
+              to="/register/$"
               className="transition-colors hover:text-primary"
             >
               Register
