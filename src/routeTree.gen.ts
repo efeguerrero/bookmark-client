@@ -19,6 +19,7 @@ import { Route as authLayoutImport } from './routes/(auth)/_layout'
 import { Route as AppLayoutIndexImport } from './routes/app/_layout.index'
 import { Route as AppLayoutDisclaimerImport } from './routes/app/_layout.disclaimer'
 import { Route as AppLayoutGroupSlugImport } from './routes/app/_layout.$groupSlug'
+import { Route as authLayoutRegisterImport } from './routes/(auth)/_layout.register'
 import { Route as authLayoutLoginImport } from './routes/(auth)/_layout.login'
 import { Route as authLayoutRegisterSplatImport } from './routes/(auth)/_layout.register.$'
 
@@ -69,14 +70,19 @@ const AppLayoutGroupSlugRoute = AppLayoutGroupSlugImport.update({
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
+const authLayoutRegisterRoute = authLayoutRegisterImport.update({
+  path: '/register',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+
 const authLayoutLoginRoute = authLayoutLoginImport.update({
   path: '/login',
   getParentRoute: () => authLayoutRoute,
 } as any)
 
 const authLayoutRegisterSplatRoute = authLayoutRegisterSplatImport.update({
-  path: '/register/$',
-  getParentRoute: () => authLayoutRoute,
+  path: '/$',
+  getParentRoute: () => authLayoutRegisterRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -125,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutLoginImport
       parentRoute: typeof authLayoutImport
     }
+    '/(auth)/_layout/register': {
+      id: '/_layout/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authLayoutRegisterImport
+      parentRoute: typeof authLayoutImport
+    }
     '/app/_layout/$groupSlug': {
       id: '/app/_layout/$groupSlug'
       path: '/$groupSlug'
@@ -148,24 +161,35 @@ declare module '@tanstack/react-router' {
     }
     '/(auth)/_layout/register/$': {
       id: '/_layout/register/$'
-      path: '/register/$'
+      path: '/$'
       fullPath: '/register/$'
       preLoaderRoute: typeof authLayoutRegisterSplatImport
-      parentRoute: typeof authLayoutImport
+      parentRoute: typeof authLayoutRegisterImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface authLayoutRegisterRouteChildren {
+  authLayoutRegisterSplatRoute: typeof authLayoutRegisterSplatRoute
+}
+
+const authLayoutRegisterRouteChildren: authLayoutRegisterRouteChildren = {
+  authLayoutRegisterSplatRoute: authLayoutRegisterSplatRoute,
+}
+
+const authLayoutRegisterRouteWithChildren =
+  authLayoutRegisterRoute._addFileChildren(authLayoutRegisterRouteChildren)
+
 interface authLayoutRouteChildren {
   authLayoutLoginRoute: typeof authLayoutLoginRoute
-  authLayoutRegisterSplatRoute: typeof authLayoutRegisterSplatRoute
+  authLayoutRegisterRoute: typeof authLayoutRegisterRouteWithChildren
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
   authLayoutLoginRoute: authLayoutLoginRoute,
-  authLayoutRegisterSplatRoute: authLayoutRegisterSplatRoute,
+  authLayoutRegisterRoute: authLayoutRegisterRouteWithChildren,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
@@ -212,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/': typeof authLayoutRouteWithChildren
   '/app': typeof AppLayoutRouteWithChildren
   '/login': typeof authLayoutLoginRoute
+  '/register': typeof authLayoutRegisterRouteWithChildren
   '/app/$groupSlug': typeof AppLayoutGroupSlugRoute
   '/app/disclaimer': typeof AppLayoutDisclaimerRoute
   '/app/': typeof AppLayoutIndexRoute
@@ -222,6 +247,7 @@ export interface FileRoutesByTo {
   '/': typeof authLayoutRouteWithChildren
   '/app': typeof AppLayoutIndexRoute
   '/login': typeof authLayoutLoginRoute
+  '/register': typeof authLayoutRegisterRouteWithChildren
   '/app/$groupSlug': typeof AppLayoutGroupSlugRoute
   '/app/disclaimer': typeof AppLayoutDisclaimerRoute
   '/register/$': typeof authLayoutRegisterSplatRoute
@@ -234,6 +260,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/app/_layout': typeof AppLayoutRouteWithChildren
   '/_layout/login': typeof authLayoutLoginRoute
+  '/_layout/register': typeof authLayoutRegisterRouteWithChildren
   '/app/_layout/$groupSlug': typeof AppLayoutGroupSlugRoute
   '/app/_layout/disclaimer': typeof AppLayoutDisclaimerRoute
   '/app/_layout/': typeof AppLayoutIndexRoute
@@ -246,6 +273,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
+    | '/register'
     | '/app/$groupSlug'
     | '/app/disclaimer'
     | '/app/'
@@ -255,6 +283,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
+    | '/register'
     | '/app/$groupSlug'
     | '/app/disclaimer'
     | '/register/$'
@@ -265,6 +294,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/_layout'
     | '/_layout/login'
+    | '/_layout/register'
     | '/app/_layout/$groupSlug'
     | '/app/_layout/disclaimer'
     | '/app/_layout/'
@@ -312,7 +342,7 @@ export const routeTree = rootRoute
       "parent": "/",
       "children": [
         "/_layout/login",
-        "/_layout/register/$"
+        "/_layout/register"
       ]
     },
     "/app": {
@@ -334,6 +364,13 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_layout.login.tsx",
       "parent": "/_layout"
     },
+    "/_layout/register": {
+      "filePath": "(auth)/_layout.register.tsx",
+      "parent": "/_layout",
+      "children": [
+        "/_layout/register/$"
+      ]
+    },
     "/app/_layout/$groupSlug": {
       "filePath": "app/_layout.$groupSlug.tsx",
       "parent": "/app/_layout"
@@ -348,7 +385,7 @@ export const routeTree = rootRoute
     },
     "/_layout/register/$": {
       "filePath": "(auth)/_layout.register.$.tsx",
-      "parent": "/_layout"
+      "parent": "/_layout/register"
     }
   }
 }
