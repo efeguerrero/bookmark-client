@@ -84,7 +84,7 @@ const NewGroupDialog = ({
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={form.formState.isSubmitting}
+                      disabled={createBookmarkGroup.isPending}
                       placeholder="Design"
                       {...field}
                     />
@@ -109,17 +109,17 @@ const NewGroupDialog = ({
             <div className="flex justify-end gap-x-6">
               <Button
                 type="reset"
-                disabled={form.formState.isSubmitting}
+                disabled={createBookmarkGroup.isPending}
                 variant="outline"
                 onClick={() => setShowNewGroupDialog(false)}
               >
                 Cancel
               </Button>
-              <Button disabled={form.formState.isSubmitting} type="submit">
-                {form.formState.isSubmitting && (
+              <Button disabled={createBookmarkGroup.isPending} type="submit">
+                {createBookmarkGroup.isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                {form.formState.isSubmitting ? "Creating" : "Create"}
+                {createBookmarkGroup.isPending ? "Creating" : "Create"}
               </Button>
             </div>
           </form>

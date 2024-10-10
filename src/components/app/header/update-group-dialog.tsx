@@ -113,7 +113,7 @@ const EditGroupDialog = ({
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      disabled={form.formState.isSubmitting}
+                      disabled={updateBookmarkGroup.isPending}
                       placeholder="Design"
                       {...field}
                     />
@@ -138,17 +138,17 @@ const EditGroupDialog = ({
             <div className="flex justify-end gap-x-6">
               <Button
                 type="reset"
-                disabled={form.formState.isSubmitting}
+                disabled={updateBookmarkGroup.isPending}
                 variant="outline"
                 onClick={() => setShowEditGroupDialog(false)}
               >
                 Cancel
               </Button>
-              <Button disabled={form.formState.isSubmitting} type="submit">
-                {form.formState.isSubmitting && (
+              <Button disabled={updateBookmarkGroup.isPending} type="submit">
+                {updateBookmarkGroup.isPending && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                {form.formState.isSubmitting ? "Creating" : "Create"}
+                {updateBookmarkGroup.isPending ? "Updating" : "Update"}
               </Button>
             </div>
           </form>
