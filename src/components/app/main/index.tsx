@@ -30,9 +30,9 @@ export default function BookmarkManager() {
     const url = item.url.toLowerCase();
 
     return (
-      title.includes(inputValue) ||
-      description.includes(inputValue) ||
-      url.includes(inputValue)
+      title.includes(inputValue.toLowerCase()) ||
+      description.includes(inputValue.toLowerCase()) ||
+      url.includes(inputValue.toLowerCase())
     );
   });
 
