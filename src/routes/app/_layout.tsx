@@ -18,8 +18,10 @@ export const Route = createFileRoute("/app/_layout")({
     }
   },
   loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(bookmarkGroupQueries.all());
-    await queryClient.ensureQueryData(bookmarkQueries.all());
+    await Promise.all([
+      queryClient.ensureQueryData(bookmarkGroupQueries.all()),
+      queryClient.ensureQueryData(bookmarkQueries.all()),
+    ]);
   },
   component: App,
   pendingComponent: () => {
