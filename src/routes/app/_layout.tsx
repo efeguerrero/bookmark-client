@@ -28,7 +28,7 @@ export const Route = createFileRoute("/app/_layout")({
   pendingComponent: () => {
     return (
       <div className="grid h-dvh w-full place-items-center">
-        <Icons.spinner className="animate-s pin size-24 text-primary" />
+        <Icons.spinner className="size-24 animate-spin text-primary" />
       </div>
     );
   },
