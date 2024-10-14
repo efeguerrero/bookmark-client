@@ -113,6 +113,7 @@ const EditGroupDialog = ({
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
+                      enterKeyHint="send"
                       disabled={updateBookmarkGroup.isPending}
                       placeholder="Design"
                       {...field}

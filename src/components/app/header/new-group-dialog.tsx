@@ -84,6 +84,7 @@ const NewGroupDialog = ({
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
+                      enterKeyHint="send"
                       disabled={createBookmarkGroup.isPending}
                       placeholder="Design"
                       {...field}
