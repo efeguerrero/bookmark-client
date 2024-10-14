@@ -5,7 +5,7 @@ import * as Icon from "@/components/ui/icons";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
+    <div className="flex min-h-svh flex-col items-center justify-center px-4 text-center">
       <div className="mb-6 flex flex-col items-center space-y-6">
         <Icon.logo className="size-14" />
         <h1 className="text-4xl font-bold sm:text-6xl">Not Found!</h1>
