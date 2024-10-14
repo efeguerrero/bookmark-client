@@ -10,6 +10,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
       duration={3000}
+      position="top-right"
       icons={{
         success: <Icon.success className="text-[#16a34a]" />,
         error: <Icon.error className="text-destructive" />,
