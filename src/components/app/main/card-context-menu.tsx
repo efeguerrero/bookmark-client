@@ -62,6 +62,9 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
           },
         },
       );
+    } else {
+      // We always close the dialog even if there is no mutation
+      setShowChangeGroup(false);
     }
   };
 
@@ -107,7 +110,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
                   <span className="truncate">{group.name}</span>
                 </ContextMenuItem>
               ))}
-              <ContextMenuSeparator />
+              {bookmarkGroups.length > 0 && <ContextMenuSeparator />}
               <ContextMenuItem
                 className="px-6"
                 onSelect={() => handleChangeGroup(null)}
@@ -147,7 +150,7 @@ const CardContextMenu = ({ children, handleDelete, bookmark }: Props) => {
                 No Group
               </span>
             </Button>
-            {bookmarkGroups.length && (
+            {bookmarkGroups.length > 0 && (
               <div className="h-px bg-border" aria-hidden="true" />
             )}
             {bookmarkGroups.map((group, index) => (
