@@ -68,6 +68,7 @@ const BookmarkInput = ({ inputValue, setInputValue }: Props) => {
         onChange={(e) => setInputValue(e.currentTarget.value)}
         value={inputValue}
         type="text"
+        enterKeyHint="search"
         placeholder="Search for a bookmark or create a new one."
         disabled={newBookmark.isPending}
         className="h-10 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.75rem)]"
