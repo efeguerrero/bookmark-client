@@ -25,7 +25,7 @@ export default function BookmarkCard({ bookmark }: { bookmark: Bookmark }) {
 
   return (
     <CardContextMenu handleDelete={handleDelete} bookmark={bookmark}>
-      <Card.Link href={bookmark.url} className="contents">
+      <Card.Link href={bookmark.url} className="no-callout contents">
         <Card.Root
           className={cn(
             "hover:bg-muted-foreground/[7%]",

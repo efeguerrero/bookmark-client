@@ -70,6 +70,13 @@
   }
 }
 
+/* To disabled link previsualization on iOS */
+@supports (-webkit-touch-callout: none) {
+  .no-callout {
+    -webkit-touch-callout: none;
+  }
+}
+
 @layer base {
   :root {
     --nav-height: 70px;
