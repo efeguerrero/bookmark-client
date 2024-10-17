@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <div className="grid min-h-dvh place-items-center pb-16">
       <main className="mx-auto max-w-lg space-y-8 px-4 sm:px-0">
-        <div className="animate-fade-in-blur flex items-center space-x-2 [animation-delay:calc(1*var(--animation-delay-step))] sm:space-x-4">
+        <div className="flex animate-fade-in-blur items-center space-x-2 [animation-delay:calc(1*var(--animation-delay-step))] sm:space-x-4">
           <Icon.logo className="size-12 sm:size-14" />
-          <h1 className="text-4xl font-bold sm:text-6xl">Bookmarks</h1>s
+          <h1 className="text-4xl font-bold sm:text-6xl">Bookmarks</h1>
         </div>
 
         <div className="space-y-4 text-muted-foreground">
@@ -22,9 +22,9 @@ export default function Home() {
             as this is a personal app and will remain so.
           </p>
         </div>
-        <Separator className="animate-fade-in-blur w-full [animation-delay:calc(4*var(--animation-delay-step))]" />
+        <Separator className="w-full animate-fade-in-blur [animation-delay:calc(4*var(--animation-delay-step))]" />
 
-        <div className="animate-fade-in-blur flex items-center justify-between [animation-delay:calc(5*var(--animation-delay-step))]">
+        <div className="flex animate-fade-in-blur items-center justify-between [animation-delay:calc(5*var(--animation-delay-step))]">
           <div className="space-x-8 sm:space-x-10">
             <Link
               to="/login/$"
