@@ -8,17 +8,13 @@ export default {
   theme: {
     extend: {
       keyframes: {
-        "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        blur: {
-          "0%": { filter: "blur(4px)" },
-          "100%": { filter: "blur(0)" },
+        fadeIn: {
+          "0%": { opacity: "0", filter: "blur(2px)" },
+          "100%": { opacity: "1", filter: "blur(0px)" },
         },
       },
       animation: {
-        "un-blur": "blur 0.4s ease-out",
+        "fade-in-blur": "fadeIn 0.7s ease-in both",
       },
       screens: {
         xs: "450px",
